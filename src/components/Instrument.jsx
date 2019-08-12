@@ -1,5 +1,12 @@
 import React from 'react'
 import Tone from 'tone'
+import AmpEnvOsc from './synth/AmpEnvOsc'
+import Filter from './synth/Filter'
+import MidiStatus from './synth/MidiStatus'
+import Options from './synth/Options'
+import Preset from './synth/Preset'
+import Visualizer from './synth/Visualizer'
+import Volume from './synth/Volume'
 
 
 export default class Instrument extends React.Component {
@@ -154,8 +161,16 @@ export default class Instrument extends React.Component {
 
   render() {
     return (
-      <div>
-        <button onClick={() => this.state.synth.triggerAttackRelease("C4")}>I'M A BUTTON</button>
+      <div className="components">
+        <h4>Instrument</h4>
+        <AmpEnvOsc />
+        <Filter />
+        <MidiStatus />
+        <Options />
+        <Preset />
+        <Visualizer />
+        <Volume />
+        {/* <button onClick={() => this.state.synth.triggerAttackRelease("C4")}>I'M A BUTTON</button> */}
 
       </div>
     )

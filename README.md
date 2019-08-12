@@ -11,6 +11,7 @@ Synth (working title) is a web app built in React.js using the Tone.js webAudio 
 MVP:
 - One working instantiated synthesizer Tone.js object and a fully functioning and playable subtractive synthesizer with a complete and fully styled front end for programming, saving and recalling presets.
 - A neat, organized, semi-modular codebase for easily adding more views and features.
+- a backend that allows the ability to create a user name, then make, save and recall synth presets.
 
 Post-MVP:
 - Multiple instantiated synthesizer Tone.js objects with their own views and a fully functioning and playable feature with matching front end such as other synthesizer types (FM, AM, Sync, drumsynths, sequencer)

@@ -31,3 +31,15 @@
     transform: rotate(360deg);
   }
 }
+
+.components {
+  background-color: yellow;
+  border-style: solid;
+  border-color: black;
+}
+
+.synth-component {
+  background-color: lightsalmon;
+  border-style: dotted;
+  border-color: black;
+}
