@@ -1,4 +1,78 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Synth
+
+To setup working code just clone down and type 'npm install' in the CLI and run local server with 'npm start'
+
+Synth (working title) is a web app built in React.js using the Tone.js webAudio library to create a simple subtractive synthesizer that can be programmed with a user interface and played back and controlled in real time by accepting input using a midi keyboard.  Users can register a username to save and recall presets for their favorite sounds with a backend server built in Ruby On Rails.  
+
+- realtime midi input with standard keyboard controller messages accepted i.e. (sustain, modulation, expression, etc.)
+- a user interface for editing and saving synthesizer parameters as presets.
+
+
+MVP:
+- One working instantiated synthesizer Tone.js object and a fully functioning and playable subtractive synthesizer with a complete and fully styled front end for programming, saving and recalling presets.
+- A neat, organized, semi-modular codebase for easily adding more views and features.
+
+Post-MVP:
+- Multiple instantiated synthesizer Tone.js objects with their own views and a fully functioning and playable feature with matching front end such as other synthesizer types (FM, AM, Sync, drumsynths, sequencer)
+- The ability to share, view and give a 5 star rating to user created patches by logged in users.
+- More on screen elements for playing and interacting with Tone.js objects for users without access to a midi device.
+
+
+Component Structure
+
+/assets/
+
+->files.png
+
+/services/
+
+->api.js
+
+/components/
+
+->Instrument
+
+->Footer
+
+->Header
+
+->Navbar
+
+->About
+
+->/forms/
+
+->->/LoginForm
+
+->->/RegisterForm
+
+->/synth/
+
+->->/AmpEnvOsc
+
+->->/Filter
+
+->->/MidiStatus
+
+->->/Options
+
+->->/Preset
+
+->->/Visualizer
+
+->->/Volume
+
+
+
+
+
+
+
+
+
+
+
+<!-- This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 
@@ -65,4 +139,4 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 
 ### `npm run build` fails to minify
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify --!>
