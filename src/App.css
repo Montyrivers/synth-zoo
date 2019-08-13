@@ -43,3 +43,226 @@
   border-style: dotted;
   border-color: black;
 }
+.amp-env-osc{
+  display: flex;
+}
+.amp-env {
+  background-color: salmon;
+  width: 15%;
+  padding: 0;
+  margin: 0;
+}
+.osc-params {
+  background-color: orange;
+  width: 10%;
+}
+.filter{
+  background-color: silver;
+  width: 50%;
+}
+.volume{
+  background-color: orange;
+  width: 50%
+}
+
+.env-slider {
+  width:10%;
+}
+.filter-slider{
+  width:1%;
+}
+
+
+
+input[type=range] {
+  /* -webkit-appearance: none; */
+  margin: 18px 0;
+  /* width: 100%; */
+  -webkit-appearance: slider-vertical; /* chrome */
+  writing-mode: bt-lr; /* IE */
+  
+}
+input[type=range]:focus {
+  outline: none;
+  
+  
+}
+input[type=range]::-webkit-slider-runnable-track {
+  /* width: 100%; */
+  height: 8.4px;
+  cursor: pointer;
+  /* animate: 0.2s; */
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  background: #3071a9;
+  border-radius: 1.3px;
+  border: 0.2px solid #010101;
+}
+input[type=range]::-webkit-slider-thumb {
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  border: 1px solid #000000;
+  height: 36px;
+  width: 16px;
+  border-radius: 3px;
+  background: #ffffff;
+  cursor: pointer;
+  /* -webkit-appearance: none; */
+  /* margin-top: -14px; */
+}
+input[type=range]:focus::-webkit-slider-runnable-track {
+  background: #367ebd;
+}
+input[type=range]::-moz-range-track {
+  /* width: 100%; */
+  height: 8.4px;
+  cursor: pointer;
+  /* animate: 0.2s; */
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  background: #3071a9;
+  border-radius: 1.3px;
+  border: 0.2px solid #010101;
+}
+input[type=range]::-moz-range-thumb {
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  border: 1px solid #000000;
+  height: 36px;
+  width: 16px;
+  border-radius: 3px;
+  background: #ffffff;
+  cursor: pointer;
+}
+input[type=range]::-ms-track {
+  /* width: 100%; */
+  height: 8.4px;
+  cursor: pointer;
+  /* animate: 0.2s; */
+  background: transparent;
+  border-color: transparent;
+  border-width: 16px 0;
+  color: transparent;
+}
+input[type=range]::-ms-fill-lower {
+  background: #2a6495;
+  border: 0.2px solid #010101;
+  border-radius: 2.6px;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+input[type=range]::-ms-fill-upper {
+  background: #3071a9;
+  border: 0.2px solid #010101;
+  border-radius: 2.6px;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+input[type=range]::-ms-thumb {
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  border: 1px solid #000000;
+  height: 36px;
+  width: 16px;
+  border-radius: 3px;
+  background: #ffffff;
+  cursor: pointer;
+}
+input[type=range]:focus::-ms-fill-lower {
+  background: #3071a9;
+}
+input[type=range]:focus::-ms-fill-upper {
+  background: #367ebd;
+  
+}
+.knob {
+  display: flex;
+  position: relative;
+}
+.knob .ticks {
+  position: absolute;
+}
+.knob .ticks .tick {
+  position: absolute;
+  background: black;
+  box-shadow: inset 0 0 0 0 black;
+  width: 3px;
+  transition: box-shadow 0.5s;
+}
+.knob .ticks .tick.active {
+  box-shadow: inset 0 0 5px 2px #509eec, 0 0 0 1px #369;
+}
+.knob.outer {
+  border-radius: 50%;
+  border: 1px solid #222;
+  border-bottom: 5px solid #222;
+  background-image: radial-gradient(100% 70%, #666 6%, #333 90%);
+  box-shadow: 0 5px 15px 2px black, 0 0 5px 3px black, 0 0 0 12px #444;
+}
+.knob.inner {
+  border-radius: 50%;
+}
+.knob.inner .grip {
+  position: absolute;
+  width: 5%;
+  height: 5%;
+  bottom: 2%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: #509eec;
+  box-shadow: 0 0 3px 1px black;
+}
+
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  background-color: orange;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  border-top-right-radius: 20px;
+
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: green;
+  border-bottom-left-radius: 30px;
+  border-top-right-radius: 30px;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+

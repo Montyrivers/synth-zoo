@@ -20,8 +20,8 @@ export default class Instrument extends React.Component {
         "modulationFrequency": 1,
       },
       "envelope": {
-        "attack": 0.0,
-        "decay": 0.0,
+        "attack": 0.001,
+        "decay": 5,
         "sustain": 0.1,
         "release": 0.3,
       },
@@ -32,14 +32,143 @@ export default class Instrument extends React.Component {
     super()
     //Tone components are stored in state.
     this.state = {
+      volume: '',
+      synthSnapshot: {
+        "oscillator": {
+          "type": "pwm",
+          "modulationFrequency": 1,
+        },
+        "envelope": {
+          "attack": 0.001,
+          "decay": 5,
+          "sustain": 0.1,
+          "release": 0.3,
+        }
+      },
+      filterSnapshot: {
+        "type": 'lowpass',
+        "frequency": 350,
+        "Q": 1,
+      },
       synth: synth,
       filter: filter,
       volume: volume,
-      notes: []
+      notes: [],
+
+      isMono: true,
+      monoPoly: undefined,
     }
   }
 
-  loadSound = () => {
+  tempSave = () => {
+    this.setState({
+      savedSynth: this.state.synth
+    })
+    console.log(this.state.savedSynth)
+  }
+
+  tempOverwrite = () => {
+    this.setState({
+      snapshot: this.state.savedSynth
+    })
+    console.log(this.state.snapshot)
+  }
+
+  tempLoad = () => {
+    this.setState({
+      synth: this.state.snapshot
+    });
+    console.log(this.state.synth)
+  }
+
+  monoPoly = (e) => {
+    if (this.state.isMono) {
+      this.setState({
+        isMono: false,
+        monoPoly: null
+      })
+    } else if (!this.state.isMono) {
+      this.setState({
+        isMono: true,
+        monoPoly: undefined,
+      })
+    }
+  }
+
+  handleVolumeKnobChange = (val) => {
+    const vol = val / 127 * .8
+    this.state.volume.gain.value = vol
+  }
+
+  handleFilterKnobChange = (val) => { //so like.  I can probably just avoid adding information to state and just push the entire object and alter it in state directly.
+    this.setState(prevState => ({
+      filterSnapshot: {
+        ...prevState.filterSnapshot,
+        frequency: val,
+      }
+    }))
+    this.state.filter.set({
+      "frequency": val,
+    })
+    console.log(this.state.filterSnapshot)
+  }
+  handleFilterChange = (e) => {
+    const { target: { name, value } } = e
+    this.setState(prevState => ({
+      filterSnapshot: {
+        ...prevState.filterSnapshot,
+        [name]: [value],
+      }
+    }))
+    this.state.filter.set({
+      "Q": value,
+    })
+    console.log(this.state.filterSnapshot)
+  }
+  handleFilterType = (str) => {
+    const filter = str
+    this.setState(prevState => ({
+      filterSnapshot: {
+        ...prevState.filterSnapshot,
+        "type": filter
+      }
+    }))
+    this.state.filter.set({
+      "type": filter,
+    })
+    console.log(this.state.filter.type)
+    console.log(this.state.filterSnapshot)
+  }
+
+
+  handleOscTypeChange = (str) => {
+    const osc = str
+    this.state.synth.set({
+      "oscillator": {
+        "type": osc,
+      }
+    })
+    console.log(this.state.synth)
+  }
+
+  handleOscModChange = (val) => {
+    this.state.synth.set({
+      "oscillator": {
+        "modulationFrequency": val,
+      }
+    })
+  }
+
+  handleAmpEnvChange = (e) => {
+    const { target: { name, value } } = e
+    this.state.synth.voices.map(voice => {
+      voice.envelope[name] = Math.round([value] / 10) + .001
+    })
+    console.log(name, Math.round(value) / 10 + .01)
+  }
+
+
+  loadSound = (e) => {
     let AudioContextFunc = window.AudioContext || window.webkitAudioContext; //storing webMIDI backend callback in an object.
     let audioContext = new AudioContextFunc(); //instantiating webMIDI object to accept device input as a promise
     if (navigator.requestMIDIAccess) { //provides for compatibility check for platform and browser-- google chrome on a mac or pc is really your best bet, here.
@@ -88,7 +217,7 @@ export default class Instrument extends React.Component {
           const veloc = velocity * .01
 
 
-          this.state.synth.triggerAttack([notArray[note + 2]], undefined, veloc) //can toggle between poly and mono by swapping second undefined argument for null respectively
+          this.state.synth.triggerAttack([notArray[note + 2]], this.state.monoPoly, veloc) //can toggle between poly and mono by swapping second undefined argument for null respectively
           if (velocity > 0) {
           }
           break;
@@ -161,15 +290,23 @@ export default class Instrument extends React.Component {
 
   render() {
     return (
-      <div className="components">
+      <div className="components" >
         <h4>Instrument</h4>
-        <AmpEnvOsc />
-        <Filter />
+        <AmpEnvOsc
+          handleEnv={this.handleAmpEnvChange}
+          handleMod={this.handleOscModChange}
+          handleOsc={this.handleOscTypeChange} />
+        <Filter
+          handleType={this.handleFilterType}
+          handleKnob={this.handleFilterKnobChange}
+          handleChange={this.handleFilterChange} />
         <MidiStatus />
-        <Options />
-        <Preset />
+        <Options
+          monoPoly={this.monoPoly}
+        />
+        <Preset tempLoad={this.tempLoad} tempOverwrite={this.tempOverwrite} tempSave={this.tempSave} />
         <Visualizer />
-        <Volume />
+        <Volume handleVolume={this.handleVolumeKnobChange} />
         {/* <button onClick={() => this.state.synth.triggerAttackRelease("C4")}>I'M A BUTTON</button> */}
 
       </div>
