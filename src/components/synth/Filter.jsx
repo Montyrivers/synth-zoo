@@ -40,32 +40,35 @@ export default class Filter extends React.Component {
 
   render() {
     return (
-      <div className="synth-component">
+      <div className="synth-component filter">
         <h4>Filter</h4>
-        <div className="filter">
+        <div >
+          <h6>CUTOFF</h6>
           <Knob
             name={'frequency'}
-            size={75}
-            numTicks={25}
+            size={110}
+            numTicks={50}
             degrees={200}
             min={75}
             max={15000}
-            value={30}
+            value={this.props.frequency}
             color={true}
             onChange={this.props.handleKnob}
           />
-
+          <label>Cutoff</label>
+          <hr />
           <form>
 
             <input className="filter-slider"
               onChange={this.props.handleChange}
               type="range"
-              orient="vertical"
+              // orient="vertical"
               id="start"
               name="Q"
               min="0" max="100" />
             <label >Q</label>
           </form>
+          <hr />
           <img src={this.state.filterArray[this.state.filterSelect]} width="130" alt="FilterType" />
           <button onClick={this.cycleForm} >FILTER TYPE</button>
 

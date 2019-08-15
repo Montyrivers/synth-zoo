@@ -44,11 +44,11 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <Header />
         <NavBar />
-        <UserPage />
+        <Header />
+
         <Instrument />
-        <About />
+
         <Footer />
       </div>
     );

@@ -1,6 +1,9 @@
 .App {
   text-align: center;
 }
+body {
+  font-family: 'Wallpoet', cursive;
+}
 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
@@ -37,53 +40,160 @@
   border-style: solid;
   border-color: black;
 }
+.header{
+  height: 48vh;
+}
+.header h1{
+  float: left;
+  font-size: 15vh;
+}
+.header h4 {
+  text-align: left;
+  font-size: 3vh;
+}
 
+.header img{
+  float: right;
+
+}
+
+.about{
+  text-align: left;
+}
+.user-page{
+  display: flex;
+}
+.login {
+  background-color: orange;
+  border-style: dotted;
+  border-color: black;
+  width: 50vw;
+  height: 50vh;
+}
+.register {
+  background-color: salmon;
+  border-style: dotted;
+  border-color: black;
+  width: 50vw;
+  height: 50vh;
+}
+
+
+
+
+.instrument{
+  display: flex;
+  /* justify-content: flex-start; */
+ 
+}
 .synth-component {
   background-color: lightsalmon;
   border-style: dotted;
   border-color: black;
+  /* width: 50%; */
+}
+
+.visualizer p {
+background-color: green;
 }
 .amp-env-osc{
   display: flex;
+  /* height: 40vh; */
+  
 }
 .amp-env {
   background-color: salmon;
-  width: 15%;
-  padding: 0;
+  width: 70%;
+  padding: 1vw;
   margin: 0;
 }
 .osc-params {
   background-color: orange;
-  width: 10%;
+  width: 25%;
+  
 }
 .filter{
   background-color: silver;
-  width: 50%;
+  width: 15%;
+  /* height: 55vh; */
+  text-align: center;
 }
 .volume{
   background-color: orange;
-  width: 50%
+  width: 20%;
+  /* height: 30vh; */
 }
 
 .env-slider {
   width:10%;
+  -webkit-appearance: slider-vertical;
+  writing-mode: bt-lr; /* IE */
+  padding: 3px;
 }
 .filter-slider{
-  width:1%;
+  width:70%;
+}
+
+.options {
+  width: 30%;
+  /* height: 20vh; */
+}
+.midi-status {
+  width:30%;
+  /* height: 15vh; */
+}
+.preset {
+  width:30%;
+  text-align: left;
+}
+.preset-name{
+  width: 28vw;
+}
+.preset-description{
+  text-align: left;
+  height: 30vh;
+  width: 28vw;
+
 }
 
 
+button {
+  box-shadow: unset;
+  border-radius: unset;
+  transition: background-color, .4s;
+  font-family: 'Wallpoet', cursive;
+  margin: 8px;
+  background-color: rgb(203, 183, 117); 
+  border-style: unset;
+}
+
+button:hover {
+  transition: background-color, .4s;
+  background-color: lightblue;
+}
+
+button:active {
+  transition: background-color, .1s;
+
+  background-color: red;
+
+}
+
+button:focus {
+  outline:0;
+}
 
 input[type=range] {
   /* -webkit-appearance: none; */
   margin: 18px 0;
   /* width: 100%; */
-  -webkit-appearance: slider-vertical; /* chrome */
-  writing-mode: bt-lr; /* IE */
+   /* chrome */
+ 
   
 }
 input[type=range]:focus {
   outline: none;
+  
   
   
 }
@@ -91,7 +201,6 @@ input[type=range]::-webkit-slider-runnable-track {
   /* width: 100%; */
   height: 8.4px;
   cursor: pointer;
-  /* animate: 0.2s; */
   box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
   background: #3071a9;
   border-radius: 1.3px;
@@ -112,10 +221,10 @@ input[type=range]:focus::-webkit-slider-runnable-track {
   background: #367ebd;
 }
 input[type=range]::-moz-range-track {
-  /* width: 100%; */
+  
   height: 8.4px;
   cursor: pointer;
-  /* animate: 0.2s; */
+  
   box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
   background: #3071a9;
   border-radius: 1.3px;

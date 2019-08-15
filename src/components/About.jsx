@@ -5,8 +5,11 @@ export default function About() {
 
 
   return (
-    <div className="components">
+    <div className="components about">
       <h4>About</h4>
+      <p>HELLO <hr />SYNTH ZOO IS A WEB BASED SUBTRACTIVE SYNTHESIZER WITH AN OSCILLATOR WITH SELECTABLE WAVEFORMS, AN AMPLIFIER ENVELOPE, A GLOBAL FILTER WITH SELECTABLE TYPES, AND THE ABILITY TO SAVE AND RECALL PRESETS FROM THE SYNTH ZOO SERVER.  MORE FEATURES WILL BE ADDED OVER TIME USING THE TONE.JS LIBRARY.
+        -CHRIS
+      </p>
     </div>
   )
 

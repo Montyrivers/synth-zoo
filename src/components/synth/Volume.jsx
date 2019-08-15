@@ -11,19 +11,20 @@ export default class Volume extends React.Component {
   render() {
 
     return (
-      <div className="synth-component">
-        <h4>Volume</h4>
+      <div className="synth-component volume">
+
         <div className="volume">
+          <h6>VOLUME</h6>
           <Knob
             size={100}
-            numTicks={125}
+            numTicks={55}
             degrees={180}
             min={0}
             max={127}
             value={0}
             onChange={this.props.handleVolume}
           />
-          <label>Volume</label>
+
         </div>
       </div>
     )

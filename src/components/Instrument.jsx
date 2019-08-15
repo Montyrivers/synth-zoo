@@ -7,12 +7,13 @@ import Options from './synth/Options'
 import Preset from './synth/Preset'
 import Visualizer from './synth/Visualizer'
 import Volume from './synth/Volume'
-import { savePreset, updatePreset, getPresets, deletePreset } from '../services/api'
+import { savePreset, updatePreset, getPresets, showPreset, deletePreset } from '../services/api'
 
 export default class Instrument extends React.Component {
   constructor() {
     //instantiating components imported from Tone.js library npm dependency.
     const synth = new Tone.PolySynth(16, Tone.Synth);
+
     //Synth object parameters are initialized using the .set Tone library method.
     synth.set({
       "oscillator": {
@@ -28,10 +29,12 @@ export default class Instrument extends React.Component {
     })
     const filter = new Tone.Filter();
     const volume = new Tone.Gain();
+    // const meter = new Tone.Meter()
 
     super()
     //Tone components are stored in state.
     this.state = {
+      selectedPreset: [],
       presetId: '',
       presets: [],
       presetInfo: {
@@ -60,6 +63,9 @@ export default class Instrument extends React.Component {
       synth: synth,
       filter: filter,
       volume: volume,
+      // meter: meter,
+
+
 
 
 
@@ -69,7 +75,41 @@ export default class Instrument extends React.Component {
     console.log(this.state.ampEnvelope)
     console.log(localStorage.getItem("clientId"))
     console.log(this.state.ampEnvelope.attack.toString())
+    console.log(this.state.presets)
   }
+
+  handleLoadPreset = (preset_id) => {
+    const synth = this.state.synth
+    const filter = this.state.filter
+    const volume = this.state.volume
+    const presets = this.state.presets
+    for (let i = 0; i < presets.length; i += 1) {
+      if (presets[i].id === preset_id) {
+        console.log(presets[i])
+        synth.set({
+          "oscillator": {
+            "type": presets[i].osc_type,
+            "modulationFrequency": presets[i].osc_mod,
+          },
+          "envelope": {
+            "attack": parseFloat(presets[i].amp_attack),
+            "decay": parseFloat(presets[i].amp_decay),
+            "sustain": parseFloat(presets[i].amp_sustain),
+            "release": parseFloat(presets[i].amp_release),
+          },
+        },
+          filter.set({
+            "type": presets[i].filter_type,
+            "frequency": presets[i].filter_frequency,
+            "Q": presets[i].filter_q
+          }),
+
+        )
+        this.monoPoly()
+      }
+    }
+  }
+
 
   handlePresetChange = (e) => {
     const { target: { name, value } } = e
@@ -90,12 +130,19 @@ export default class Instrument extends React.Component {
     }))
   }
   handlePresetSelect = async (e) => {
+    const user = localStorage.getItem('user')
     const { target: { name, value } } = e;
     this.setState(prevState => ({
       ...prevState.presetId,
       presetId: value
     }));
+    const resp = await showPreset(user, value)
+    this.setState(prevState => ({
+      ...prevState.selectedPreset,
+      selectedPreset: [resp, "string"]
+    }))
     console.log(value)
+    console.log(this.state.selectedPreset)
   }
 
   handleSavePreset = async () => {
@@ -151,10 +198,12 @@ export default class Instrument extends React.Component {
   handleDeletePreset = async () => {
     const user = localStorage.getItem("user");
     const resp = await deletePreset(user, this.state.presetId)
-
-    this.setState(prevState => ({
-      presets: prevState.presets.filter(preset => preset.id !== this.state.presetId)
-    }))
+    const presets = this.state.presets
+    const filteredPresets = presets.filter(preset => (preset.id !== this.state.presetId))
+    this.setState({
+      presets: filteredPresets,
+      selectedPreset: [{ category: 'Preset Deleted', description: "Preset Deleted" }, "string"]
+    })
   }
 
 
@@ -300,10 +349,16 @@ export default class Instrument extends React.Component {
       //midi inputs/outputs stored in variable in case you connect multiple devices.
       let inputs = midiAccess.inputs;
       let outputs = midiAccess.outputs;
+      console.log(inputs.values())
+
       for (let input of midiAccess.inputs.values()) {
         //capture of midi messages is called here.
         input.onmidimessage = getMIDIMessage;
 
+      }
+      midiAccess.onstatechange = function (e) {
+        console.log(e.port)
+        //set state here?
       }
     }
 
@@ -334,7 +389,6 @@ export default class Instrument extends React.Component {
           break
         case 144: //noteOn
           const veloc = velocity * .01
-
 
           this.state.synth.triggerAttack([notArray[note + 2]], this.state.monoPoly, veloc) //can toggle between poly and mono by swapping second undefined argument for null respectively
           if (velocity > 0) {
@@ -394,6 +448,7 @@ export default class Instrument extends React.Component {
     this.state.synth.connect(this.state.filter);
     this.state.filter.connect(this.state.volume);
     this.state.volume.toMaster();
+    // this.state.meter.toMaster();
     this.state.filter.frequency.value = 200; // 200 - 15000
     this.state.volume.gain.value = 0.8; // 0-0.8
     this.loadSound()
@@ -408,10 +463,14 @@ export default class Instrument extends React.Component {
 
 
   render() {
+
     return (
-      <div className="components" >
-        <h4>Instrument</h4>
-        <button onClick={this.test}></button>
+      <div className="components instrument" >
+        {/* <h4>Instrument</h4> */}
+        {/* <button onClick={this.test}></button> */}
+        <Volume
+          handleVolume={this.handleVolumeKnobChange}
+        />
         <AmpEnvOsc
           handleEnv={this.handleAmpEnvChange}
           handleMod={this.handleOscModChange}
@@ -419,14 +478,17 @@ export default class Instrument extends React.Component {
           snapshot={this.state.synthSnapshot}
         />
         <Filter
+          frequency={this.state.filterFrequency}
           handleType={this.handleFilterType}
           handleKnob={this.handleFilterKnobChange}
           handleChange={this.handleFilterChange} />
-        <MidiStatus />
+        {/* <MidiStatus /> */}
         <Options
           monoPoly={this.monoPoly}
         />
         <Preset
+          handleLoad={this.handleLoadPreset}
+          selected={this.state.selectedPreset}
           handleDelete={this.handleDeletePreset}
           handleSelect={this.handlePresetSelect}
           presets={this.state.presets}
@@ -435,10 +497,8 @@ export default class Instrument extends React.Component {
           handleUpdate={this.handleUpdatePreset}
           handleChange={this.handlePresetChange}
         />
-        <Visualizer />
-        <Volume
-          handleVolume={this.handleVolumeKnobChange}
-        />
+        {/* <Visualizer meter={this.state.meterVal} /> */}
+
       </div>
     )
   }

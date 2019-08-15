@@ -17,7 +17,7 @@ export default class MidiStatus extends React.Component {
   render() {
 
     return (
-      <div className="synth-component">
+      <div className="synth-component midi-status">
         <h4>Midi Status</h4>
         <select name="devices">
           <option value="select">Please Select Device</option>

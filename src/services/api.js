@@ -48,7 +48,14 @@ export const getPresets = async (user_id) => {
   return resp.data
 }
 
+export const showPreset = async (user_id, preset_id) => {
+  const resp = await api.get(`/users/${user_id}/presets/${preset_id}`)
+  console.log(resp.data)
+  return resp.data
+}
+
 export const deletePreset = async (user_id, preset_id) => {
   const resp = await api.delete(`/users/${user_id}/presets/${preset_id}`)
   console.log(resp)
 }
+

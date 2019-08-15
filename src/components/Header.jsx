@@ -1,5 +1,5 @@
 import React from 'react'
-
+import giraffe from '../assets/giraffe.png'
 export default class Header extends React.Component {
   constructor() {
     super()
@@ -11,10 +11,11 @@ export default class Header extends React.Component {
   render() {
 
     return (
-      <div className="components">
+      <div className="components header">
         <header>
-          <h4>Header</h4>
-          <h1>Synth</h1>
+          <h4>WELCOME TO...</h4>
+          <h1>SYNTH ZOO</h1>
+          <img src={giraffe} width="450" />
 
         </header>
       </div>

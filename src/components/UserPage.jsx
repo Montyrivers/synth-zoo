@@ -67,8 +67,8 @@ export default class UserPage extends React.Component {
 
   render() {
     return (
-      <div className="components">
-        <h4>User Page</h4>
+      <div className="components user-page">
+        {/* <h4>User Page</h4> */}
         <LoginForm
           handleSubmit={this.handleLogin}
           handleChange={this.handleLoginChange} />

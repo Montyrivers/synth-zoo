@@ -14,13 +14,13 @@ export default class Options extends React.Component {
   render() {
 
     return (
-      <div className="synth-component">
+      <div className="synth-component options">
         <h4>Options</h4>
         <label className="switch">
           <input type="checkbox" onClick={this.props.monoPoly} />
           <span className="slider"></span>
         </label>
-        <label>POLY/MONO</label>
+        <label>MONO/POLY</label>
 
 
       </div>

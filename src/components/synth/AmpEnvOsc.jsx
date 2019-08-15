@@ -5,7 +5,7 @@ import saw from '../../assets/sawtooth-wave.png'
 import sine from '../../assets/sine-wave.png'
 import square from '../../assets/square-wave.png'
 import triangle from '../../assets/triangle-wave.png'
-
+import env from '../../assets/envelope.png'
 
 export default class AmpEnvOsc extends React.Component {
   constructor() {
@@ -44,10 +44,11 @@ export default class AmpEnvOsc extends React.Component {
   render() {
 
     return (
-      <div className="synth-component">
-        <h4>Amp Env Osc</h4>
+      <div className="synth-component amp-env-osc">
+        {/* <h4>Amp Env Osc</h4> */}
         <div className="amp-env-osc">
           <div className="amp-env">
+            <h6>AMP ENVELOPE</h6>
             <form onChange={this.props.handleEnv}>
               <input
                 className="env-slider"
@@ -88,12 +89,14 @@ export default class AmpEnvOsc extends React.Component {
                 step="0.1" />
               <label >R</label>
             </form>
+            <img src={env} width="100" alt="envelope" />
+
           </div>
           <div className="osc-params">
-
+            <h6>OSC MOD</h6>
             <Knob
               size={55}
-              numTicks={25}
+              numTicks={55}
               degrees={260}
               min={1}
               max={100}
