@@ -13,15 +13,28 @@ export default class Preset extends React.Component {
     return (
       <div className="synth-component">
         <h4>Preset</h4>
-        <button onClick={this.props.tempSave}>SAVE PRESET</button>
-        <select name="presets">
-          <option value="select">CHOOSE PRESET</option>
-          <option value="saab">Saab</option>
-          <option value="fiat">Fiat</option>
-          <option value="audi">Audi</option>
-        </select>
-        <button onClick={this.tempLoad}>LOAD</button>
-        <button onClick={this.props.tempOverwrite}>OVERWRITE PRESET</button>
+        <form onChange={this.props.handleChange}>
+          <input type="text" name="category" />
+          <input type="text" name="description" />
+        </form>
+        <button onClick={this.props.handleSave}>SAVE PRESET</button>
+        <form onChange={this.props.handleSelect}>
+          <select name="presets">
+            <option value="select">CHOOSE PRESET</option>
+            {this.props.presets.map(preset => (
+              <option
+                key={preset.id}
+                value={preset.id}
+              >{`${preset.id} - ${preset.category}`}
+              </option>
+            ))}
+
+          </select>
+        </form>
+        <button onClick={this.props.getPresets}>RETRIEVE PRESETS</button>
+        <button onClick={this.props.handleUpdate}>OVERWRITE PRESET</button>
+        <hr />
+        <button onClick={this.props.handleDelete}>DELETE PRESET</button>
       </div>
     )
 

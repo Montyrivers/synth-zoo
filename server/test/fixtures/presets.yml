@@ -1,0 +1,29 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  description: MyString
+  category: MyString
+  volume: 1
+  amp_envelope: MyString
+  osc_type: MyString
+  osc_mod: 1
+  filter_type: MyString
+  filter_frequency: 1
+  filter_q: 1
+  is_mono: false
+  mono_poly: MyString
+  user: one
+
+two:
+  description: MyString
+  category: MyString
+  volume: 1
+  amp_envelope: MyString
+  osc_type: MyString
+  osc_mod: 1
+  filter_type: MyString
+  filter_frequency: 1
+  filter_q: 1
+  is_mono: false
+  mono_poly: MyString
+  user: two

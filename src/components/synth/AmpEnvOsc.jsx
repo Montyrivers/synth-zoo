@@ -48,44 +48,41 @@ export default class AmpEnvOsc extends React.Component {
         <h4>Amp Env Osc</h4>
         <div className="amp-env-osc">
           <div className="amp-env">
-            <form >
+            <form onChange={this.props.handleEnv}>
               <input
-                onChange={this.props.handleEnv}
                 className="env-slider"
                 type="range"
                 orient="vertical"
-                id="start"
+
                 name="attack"
                 min="0.001" max="59"
                 step="0.001"
               />
+
               <label >A</label>
               <input
-                onChange={this.props.handleEnv}
                 className="env-slider"
                 type="range"
                 orient="vertical"
-                id="start"
+
                 name="decay"
                 min="1" max="59"
                 step="0.5" />
               <label >D</label>
               <input
-                onChange={this.props.handleEnv}
                 className="env-slider"
                 type="range"
                 orient="vertical"
-                id="start"
+
                 name="sustain"
                 min="0" max="9"
                 step="0.01" />
               <label >S</label>
               <input
-                onChange={this.props.handleEnv}
                 className="env-slider"
                 type="range"
                 orient="vertical"
-                id="start"
+
                 name="release"
                 min="0.11" max="59"
                 step="0.1" />

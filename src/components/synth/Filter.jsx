@@ -20,19 +20,22 @@ export default class Filter extends React.Component {
     let toggleDex = this.state.filterSelect
     if (toggleDex < 2) {
       toggleDex += 1
-      this.setState({
+      this.setState(prevState => ({
+        ...prevState.filterSelect,
         filterSelect: toggleDex
-      })
+      }))
     } else {
-      this.setState({
+      this.setState(prevState => ({
+        ...prevState.filterSelect,
         filterSelect: 0
-      })
+      }))
     }
-    return this.props.handleType(this.state.filterStrArray[this.state.filterSelect])
+    this.props.handleType(this.state.filterStrArray[this.state.filterSelect])
   }
 
   componentDidMount() {
     this.cycleForm()
+
   }
 
   render() {

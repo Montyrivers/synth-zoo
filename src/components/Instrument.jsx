@@ -7,7 +7,7 @@ import Options from './synth/Options'
 import Preset from './synth/Preset'
 import Visualizer from './synth/Visualizer'
 import Volume from './synth/Volume'
-
+import { savePreset, updatePreset, getPresets, deletePreset } from '../services/api'
 
 export default class Instrument extends React.Component {
   constructor() {
@@ -32,56 +32,135 @@ export default class Instrument extends React.Component {
     super()
     //Tone components are stored in state.
     this.state = {
-      volume: '',
-      synthSnapshot: {
-        "oscillator": {
-          "type": "pwm",
-          "modulationFrequency": 1,
-        },
-        "envelope": {
-          "attack": 0.001,
-          "decay": 5,
-          "sustain": 0.1,
-          "release": 0.3,
-        }
+      presetId: '',
+      presets: [],
+      presetInfo: {
+        description: '',
+        category: ''
       },
-      filterSnapshot: {
-        "type": 'lowpass',
-        "frequency": 350,
-        "Q": 1,
+
+      volumeLevel: 0.8,
+      ampEnvelope: {
+        attack: 0.001,
+        decay: 5,
+        sustain: 0.1,
+        release: 0.3,
       },
-      synth: synth,
-      filter: filter,
-      volume: volume,
-      notes: [],
+      oscType: 'pwm',
+      oscMod: 1.0001,
+
+
+      filterType: 'lowpass',
+      filterFrequency: 350,
+      filterQ: 1,
 
       isMono: true,
       monoPoly: undefined,
+
+      synth: synth,
+      filter: filter,
+      volume: volume,
+
+
+
     }
   }
-
-  tempSave = () => {
-    this.setState({
-      savedSynth: this.state.synth
-    })
-    console.log(this.state.savedSynth)
+  test = () => {
+    console.log(this.state.ampEnvelope)
+    console.log(localStorage.getItem("clientId"))
+    console.log(this.state.ampEnvelope.attack.toString())
   }
 
-  tempOverwrite = () => {
-    this.setState({
-      snapshot: this.state.savedSynth
-    })
-    console.log(this.state.snapshot)
+  handlePresetChange = (e) => {
+    const { target: { name, value } } = e
+    this.setState(prevState => ({
+      presetInfo: {
+        ...prevState.presetInfo,
+        [name]: value,
+      }
+    }))
+  }
+  handleGetPresets = async () => {
+    const user = localStorage.getItem('user')
+    const resp = await getPresets(user);
+    console.log(resp)
+    this.setState(prevState => ({
+      ...prevState.presets,
+      presets: resp,
+    }))
+  }
+  handlePresetSelect = async (e) => {
+    const { target: { name, value } } = e;
+    this.setState(prevState => ({
+      ...prevState.presetId,
+      presetId: value
+    }));
+    console.log(value)
   }
 
-  tempLoad = () => {
-    this.setState({
-      synth: this.state.snapshot
-    });
-    console.log(this.state.synth)
+  handleSavePreset = async () => {
+    const attack = this.state.ampEnvelope.attack.toString()
+    const decay = this.state.ampEnvelope.decay.toString()
+    const sustain = this.state.ampEnvelope.sustain.toString()
+    const release = this.state.ampEnvelope.release.toString()
+    const user = localStorage.getItem("user");
+    const data = {
+      description: this.state.presetInfo.description,
+      category: this.state.presetInfo.category,
+      volume: this.state.volumeLevel,
+      amp_attack: attack,
+      amp_decay: decay,
+      amp_sustain: sustain,
+      amp_release: release,
+      osc_type: this.state.oscType,
+      osc_mod: this.state.oscMod,
+      filter_type: this.state.filterType,
+      filter_frequency: this.state.filterFrequency,
+      filter_q: this.state.filterQ,
+      is_mono: this.state.isMono,
+      user_id: user
+    }
+    const resp = await savePreset(user, data)
   }
 
-  monoPoly = (e) => {
+
+  handleUpdatePreset = async () => {
+    const attack = this.state.ampEnvelope.attack.toString()
+    const decay = this.state.ampEnvelope.decay.toString()
+    const sustain = this.state.ampEnvelope.sustain.toString()
+    const release = this.state.ampEnvelope.release.toString()
+    const user = localStorage.getItem("user");
+    const data = {
+      description: this.state.presetInfo.description,
+      category: this.state.presetInfo.category,
+      volume: this.state.volumeLevel,
+      amp_attack: attack,
+      amp_decay: decay,
+      amp_sustain: sustain,
+      amp_release: release,
+      osc_type: this.state.oscType,
+      osc_mod: this.state.oscMod,
+      filter_type: this.state.filterType,
+      filter_frequency: this.state.filterFrequency,
+      filter_q: this.state.filterQ,
+      is_mono: this.state.isMono,
+    }
+    const resp = await updatePreset(user, this.state.presetId, data)
+  }
+
+  handleDeletePreset = async () => {
+    const user = localStorage.getItem("user");
+    const resp = await deletePreset(user, this.state.presetId)
+
+    this.setState(prevState => ({
+      presets: prevState.presets.filter(preset => preset.id !== this.state.presetId)
+    }))
+  }
+
+
+
+
+  monoPoly = (e) => {  //remember we need to run this function inside of a patch load so it can check isMono
     if (this.state.isMono) {
       this.setState({
         isMono: false,
@@ -97,48 +176,52 @@ export default class Instrument extends React.Component {
 
   handleVolumeKnobChange = (val) => {
     const vol = val / 127 * .8
+
+    this.setState(prevState => ({
+      ...prevState.volumeLevel,
+      volumeLevel: vol
+    }))
     this.state.volume.gain.value = vol
   }
 
   handleFilterKnobChange = (val) => { //so like.  I can probably just avoid adding information to state and just push the entire object and alter it in state directly.
     this.setState(prevState => ({
-      filterSnapshot: {
-        ...prevState.filterSnapshot,
-        frequency: val,
-      }
+      ...prevState.filterFrequency,
+      filterFrequency: val,
     }))
     this.state.filter.set({
       "frequency": val,
     })
-    console.log(this.state.filterSnapshot)
   }
   handleFilterChange = (e) => {
     const { target: { name, value } } = e
     this.setState(prevState => ({
-      filterSnapshot: {
-        ...prevState.filterSnapshot,
-        [name]: [value],
-      }
+      ...prevState.filterQ,
+      filterQ: value
     }))
     this.state.filter.set({
-      "Q": value,
+      "Q": [value],
     })
-    console.log(this.state.filterSnapshot)
   }
+
+
+
   handleFilterType = (str) => {
     const filter = str
     this.setState(prevState => ({
-      filterSnapshot: {
-        ...prevState.filterSnapshot,
-        "type": filter
-      }
+      ...prevState.filterType,
+      filterType: filter
     }))
     this.state.filter.set({
       "type": filter,
     })
-    console.log(this.state.filter.type)
-    console.log(this.state.filterSnapshot)
+    console.log(this.state.filter)
   }
+
+
+
+
+
 
 
   handleOscTypeChange = (str) => {
@@ -148,10 +231,26 @@ export default class Instrument extends React.Component {
         "type": osc,
       }
     })
-    console.log(this.state.synth)
+    this.setState(prevState => ({
+      ...prevState.oscType,
+      oscType: osc,
+    }))
   }
 
+
+
+
+
+
+
+
+
+
   handleOscModChange = (val) => {
+    this.setState(prevState => ({
+      ...prevState.oscMod,
+      oscMod: val,
+    }))
     this.state.synth.set({
       "oscillator": {
         "modulationFrequency": val,
@@ -159,13 +258,32 @@ export default class Instrument extends React.Component {
     })
   }
 
+
+
+
+
+
+
+
+
   handleAmpEnvChange = (e) => {
     const { target: { name, value } } = e
+    this.setState(prevState => ({
+      ampEnvelope: {
+        ...prevState.ampEnvelope,
+        [name]: Math.round([value] / 10) + .001,
+      }
+    }))
     this.state.synth.voices.map(voice => {
       voice.envelope[name] = Math.round([value] / 10) + .001
     })
-    console.log(name, Math.round(value) / 10 + .01)
   }
+
+
+
+
+
+
 
 
   loadSound = (e) => {
@@ -185,6 +303,7 @@ export default class Instrument extends React.Component {
       for (let input of midiAccess.inputs.values()) {
         //capture of midi messages is called here.
         input.onmidimessage = getMIDIMessage;
+
       }
     }
 
@@ -292,10 +411,13 @@ export default class Instrument extends React.Component {
     return (
       <div className="components" >
         <h4>Instrument</h4>
+        <button onClick={this.test}></button>
         <AmpEnvOsc
           handleEnv={this.handleAmpEnvChange}
           handleMod={this.handleOscModChange}
-          handleOsc={this.handleOscTypeChange} />
+          handleOsc={this.handleOscTypeChange}
+          snapshot={this.state.synthSnapshot}
+        />
         <Filter
           handleType={this.handleFilterType}
           handleKnob={this.handleFilterKnobChange}
@@ -304,15 +426,25 @@ export default class Instrument extends React.Component {
         <Options
           monoPoly={this.monoPoly}
         />
-        <Preset tempLoad={this.tempLoad} tempOverwrite={this.tempOverwrite} tempSave={this.tempSave} />
+        <Preset
+          handleDelete={this.handleDeletePreset}
+          handleSelect={this.handlePresetSelect}
+          presets={this.state.presets}
+          getPresets={this.handleGetPresets}
+          handleSave={this.handleSavePreset}
+          handleUpdate={this.handleUpdatePreset}
+          handleChange={this.handlePresetChange}
+        />
         <Visualizer />
-        <Volume handleVolume={this.handleVolumeKnobChange} />
-        {/* <button onClick={() => this.state.synth.triggerAttackRelease("C4")}>I'M A BUTTON</button> */}
-
+        <Volume
+          handleVolume={this.handleVolumeKnobChange}
+        />
       </div>
     )
   }
 }
+
+
 
 
 
