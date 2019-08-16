@@ -154,30 +154,3 @@ Knob.defaultProps = {
   value: 0
 };
 
-class App extends React.Component {
-  state = { value: 0 };
-
-  handleChange = newValue => {
-    this.setState({
-      value: newValue
-    });
-  };
-  render() {
-    return (
-      <div className="App">
-        <Knob
-          size={100}
-          numTicks={25}
-          degrees={260}
-          min={1}
-          max={100}
-          value={this.props.value}
-          color={true}
-          onChange={this.handleChange}
-        />
-
-      </div>
-    );
-  }
-}
-

@@ -2,11 +2,12 @@ import React from 'react'
 import LoginForm from './forms/LoginForm'
 import RegisterForm from './forms/RegisterForm'
 import { registerUser, loginUser } from '../services/api'
+import { withRouter } from 'react-router-dom'
 
-
-export default class UserPage extends React.Component {
+class UserPage extends React.Component {
   constructor() {
     super()
+
 
     this.state = {
       userForm: {
@@ -18,7 +19,9 @@ export default class UserPage extends React.Component {
       loginForm: {
         name: '',
         password: '',
-      }
+      },
+      correctLogSubmit: true,
+      correctRegSubmit: true,
     }
   }
 
@@ -32,10 +35,19 @@ export default class UserPage extends React.Component {
       }
     }));
   }
-
+  routeChange() {
+    let path = `/`;
+    this.props.history.push(path);
+  }
 
   handleRegister = async () => {
+    this.setState({
+      correctRegSubmit: false
+    })
     const resp = await registerUser(this.state.userForm)
+    this.setState({
+      correctRegSubmit: true
+    })
     this.setState({
       userForm: {
         name: '',
@@ -56,26 +68,36 @@ export default class UserPage extends React.Component {
   }
 
   handleLogin = async () => {
+    this.setState({
+      correctLogSubmit: false
+    })
     const resp = await loginUser(this.state.loginForm)
     this.setState({
-      loginForm: {
-        name: '',
-        password: '',
-      }
+      correctLogSubmit: true
     })
+    this.props.login()
+    this.routeChange()
   }
+
+
+
+
+
 
   render() {
     return (
       <div className="components user-page">
-        {/* <h4>User Page</h4> */}
+
         <LoginForm
+          correctSubmit={this.state.correctLogSubmit}
           handleSubmit={this.handleLogin}
           handleChange={this.handleLoginChange} />
         <RegisterForm
+          correctSubmit={this.state.correctRegSubmit}
           handleSubmit={this.handleRegister}
           handleChange={this.handleChange} />
       </div>
     )
   }
 }
+export default withRouter(UserPage)

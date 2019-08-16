@@ -370,6 +370,7 @@ export default class Instrument extends React.Component {
       midiAccess.onstatechange = function (e) {
         console.log(e.port)
         //set state here?
+        audioContext.resume()
       }
     }
 

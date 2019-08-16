@@ -11,7 +11,7 @@ export const loginUser = async (loginData) => {
   const resp = await api.post('/auth/login', loginData)
   localStorage.setItem('authToken', resp.data.token);
   api.defaults.headers.common.authorization = `Bearer ${resp.data.token}`
-  // console.log(resp.data.user)
+  // console.log(resp.data)
   localStorage.setItem('user', resp.data.user.id)
   return resp.data.user
 }
@@ -20,6 +20,11 @@ export const registerUser = async (data) => {
   const resp = await api.post('/users/', { user: data })
   console.log(resp.data)
   return resp.data
+}
+
+export const logoutUser = async () => {
+  api.defaults.headers.common.authorization = ""
+  localStorage.setItem('user', '')
 }
 
 export const verifyUser = async () => {

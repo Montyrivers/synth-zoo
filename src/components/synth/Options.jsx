@@ -52,6 +52,7 @@ export default class Options extends React.Component {
         </div>
         <button onClick={this.handleOctaveDown}>Octave Down</button>
         <button onClick={this.handleOctaveUp}>Octave Up</button>
+        <hr />
         <div className="drone-zone">
           <h6>THE DRONE ZONE</h6>
           <div className="nuclear">

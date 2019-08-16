@@ -93,6 +93,10 @@ a:active {color:red;}  /* Selected link   */
 
 }
 /* Twitter */
+.hide {
+  padding: 3vh;
+  
+}
 .fa-twitter {
   background: #55ACEE;
   color: white;
