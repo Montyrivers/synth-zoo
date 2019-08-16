@@ -206,8 +206,19 @@ export default class Instrument extends React.Component {
     })
   }
 
+  droneZone = (val) => {
+    this.state.synth.voices.map(voice => {
+      voice.oscillator.frequency.value += val;
+      voice.envelope.cancel(.5)
+    });
+  }
 
-
+  panic = () => {
+    this.state.synth.releaseAll()
+  }
+  danger = () => {
+    this.state.synth.triggerAttack(["C3", "E3", "G3"])
+  }
 
   monoPoly = (e) => {  //remember we need to run this function inside of a patch load so it can check isMono
     if (this.state.isMono) {
@@ -484,6 +495,10 @@ export default class Instrument extends React.Component {
           handleChange={this.handleFilterChange} />
         {/* <MidiStatus /> */}
         <Options
+          danger={this.danger}
+          panic={this.panic}
+          droneZone={this.droneZone}
+          synth={this.state.synth}
           monoPoly={this.monoPoly}
         />
         <Preset
@@ -498,7 +513,6 @@ export default class Instrument extends React.Component {
           handleChange={this.handlePresetChange}
         />
         {/* <Visualizer meter={this.state.meterVal} /> */}
-
       </div>
     )
   }

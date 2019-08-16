@@ -46,7 +46,7 @@ export default class Filter extends React.Component {
           <h6>CUTOFF</h6>
           <Knob
             name={'frequency'}
-            size={110}
+            size={68}
             numTicks={50}
             degrees={200}
             min={75}

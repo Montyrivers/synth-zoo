@@ -15,7 +15,8 @@ export default class Header extends React.Component {
         <header>
           <h4>WELCOME TO...</h4>
           <h1>SYNTH ZOO</h1>
-          <img src={giraffe} width="450" />
+          <img src={giraffe} />
+
 
         </header>
       </div>

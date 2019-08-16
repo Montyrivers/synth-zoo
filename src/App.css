@@ -1,3 +1,7 @@
+html {
+  text-transform: uppercase;
+}
+
 .App {
   text-align: center;
 }
@@ -54,11 +58,44 @@ body {
 
 .header img{
   float: right;
+  width: 27.3vw;
 
 }
 
 .about{
   text-align: left;
+}
+.fa {
+  padding: 20px;
+  font-size: 30px;
+  width: 30px;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 50%;
+}
+.fa-linkedin {
+  background: #3B5998;
+  color: white;
+}
+a {color: black;}         /* Unvisited link  */
+a:visited {color:black;} /* Visited link    */
+a:hover {color:salmon;}   /* Mouse over link */
+a:active {color:red;}  /* Selected link   */
+.github {
+  margin: 10px;
+  padding:10px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  border-style: solid;
+  border-color: orange;
+  border-radius: 100%;
+  outline:0;
+
+}
+/* Twitter */
+.fa-twitter {
+  background: #55ACEE;
+  color: white;
 }
 .user-page{
   display: flex;
@@ -83,14 +120,12 @@ body {
 
 .instrument{
   display: flex;
-  /* justify-content: flex-start; */
- 
-}
+  width: 100vw;
+ }
 .synth-component {
   background-color: lightsalmon;
   border-style: dotted;
   border-color: black;
-  /* width: 50%; */
 }
 
 .visualizer p {
@@ -106,6 +141,9 @@ background-color: green;
   width: 70%;
   padding: 1vw;
   margin: 0;
+}
+.amp-env img {
+  width: 12vw;
 }
 .osc-params {
   background-color: orange;
@@ -153,9 +191,84 @@ background-color: green;
   text-align: left;
   height: 30vh;
   width: 28vw;
-
 }
 
+.keyboard {
+background-color: thistle;
+height: 10vh;
+display: block;
+}
+.black-keys{
+display: flex;
+margin-left: 2vw;
+color: white;
+}
+
+.black-spacer{
+  margin-left: 1vw;
+  margin-right: 1vw;
+}
+
+.white-keys{
+display: flex;
+margin-left: 1vw;
+
+color: black;
+
+}
+.white {
+  width: 4vh;
+  background-color: white;
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;
+}
+.white:hover {
+  transition: .05s;
+  color: red;
+}
+.white:active{
+  transition: .05s;
+  background-color: orangered
+}
+.black {
+  width: 4vh;
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;
+  background-color: black;
+}
+.black:hover {
+  transition: .05s;
+  color: red;
+}
+.black:active{
+  transition: .05s;
+  background-color: orangered
+}
+
+
+.nuclear {
+  text-align: right;
+  width: 16vw;
+  height: .1vh;
+  
+}
+.nuclear img {
+  width: 9vh;
+}
+
+.danger{
+  margin-top: 3vh;
+  height: 10vh;
+  width: 6vw;
+}
+.panic{
+
+  margin-top: 3vh;
+  height: 10vh;
+  width: 5vw;
+}
 
 button {
   box-shadow: unset;
@@ -280,6 +393,7 @@ input[type=range]:focus::-ms-fill-upper {
 .knob {
   display: flex;
   position: relative;
+  margin: 1.5vw;
 }
 .knob .ticks {
   position: absolute;
@@ -375,3 +489,29 @@ input:checked + .slider:before {
   transform: translateX(26px);
 }
 
+
+
+
+
+
+/* media queries */
+
+@media only screen and (max-width: 1120px) {
+  .header img {
+display: none;  }
+
+.components {
+  display: block;
+  width: 100vw;
+}
+.synth-components, .volume, .filter, .options, .preset {
+  width: 100vw;
+
+}
+.nuclear img {
+  display: none;
+}
+.danger, .panic {
+  width: 20vw;
+}
+}

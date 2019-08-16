@@ -171,7 +171,7 @@ class App extends React.Component {
           degrees={260}
           min={1}
           max={100}
-          value={30}
+          value={this.props.value}
           color={true}
           onChange={this.handleChange}
         />
