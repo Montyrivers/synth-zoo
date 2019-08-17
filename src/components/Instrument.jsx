@@ -64,7 +64,7 @@ export default class Instrument extends React.Component {
       filter: filter,
       volume: volume,
       // meter: meter,
-
+      midiDevice: '',
 
 
 
@@ -367,10 +367,17 @@ export default class Instrument extends React.Component {
         input.onmidimessage = getMIDIMessage;
 
       }
-      midiAccess.onstatechange = function (e) {
+
+      midiAccess.onstatechange = function (e) { //when detected device changes will log and attempt to open port for connection
         console.log(e.port)
         //set state here?
-        audioContext.resume()
+        e.connection = "open"
+        document.addEventListener("mousedown", function (e) { // clicking mouse anywhere on page will resume autiocontext after automatic suspend due to idle, low power state, sleep, etc.
+          if (audioContext.suspend())
+            audioContext.resume()
+          console.log('resumed')
+        })
+        // console.log(e.port)
       }
     }
 
@@ -465,6 +472,7 @@ export default class Instrument extends React.Component {
     this.state.volume.gain.value = 0.8; // 0-0.8
     this.loadSound()
     console.log(this.state.synth)
+    console.log(this.state.midiDevice)
   }
 
 

@@ -401,6 +401,7 @@ input[type=range]:focus::-ms-fill-upper {
 }
 .knob .ticks {
   position: absolute;
+  
 }
 .knob .ticks .tick {
   position: absolute;
@@ -408,6 +409,7 @@ input[type=range]:focus::-ms-fill-upper {
   box-shadow: inset 0 0 0 0 black;
   width: 3px;
   transition: box-shadow 0.5s;
+  
 }
 .knob .ticks .tick.active {
   box-shadow: inset 0 0 5px 2px #509eec, 0 0 0 1px #369;
@@ -432,6 +434,7 @@ input[type=range]:focus::-ms-fill-upper {
   border-radius: 50%;
   background: #509eec;
   box-shadow: 0 0 3px 1px black;
+  
 }
 
 

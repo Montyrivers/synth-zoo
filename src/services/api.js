@@ -2,6 +2,7 @@ const axios = require('axios')
 
 const baseUrl = "http://localhost:3000"
 
+// https://mysterious-island-13273.herokuapp.com
 
 const api = axios.create({
   baseURL: baseUrl,
@@ -11,7 +12,7 @@ export const loginUser = async (loginData) => {
   const resp = await api.post('/auth/login', loginData)
   localStorage.setItem('authToken', resp.data.token);
   api.defaults.headers.common.authorization = `Bearer ${resp.data.token}`
-  // console.log(resp.data)
+  console.log(resp.data)
   localStorage.setItem('user', resp.data.user.id)
   return resp.data.user
 }
