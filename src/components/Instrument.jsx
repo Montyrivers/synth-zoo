@@ -12,7 +12,8 @@ import { savePreset, updatePreset, getPresets, showPreset, deletePreset } from '
 export default class Instrument extends React.Component {
   constructor() {
     //instantiating components imported from Tone.js library npm dependency.
-    const synth = new Tone.PolySynth(16, Tone.Synth);
+    const synth = new Tone.PolySynth(16, Tone.MonoSynth);
+
 
     //Synth object parameters are initialized using the .set Tone library method.
     synth.set({
@@ -25,6 +26,20 @@ export default class Instrument extends React.Component {
         "decay": 5,
         "sustain": 0.1,
         "release": 0.3,
+      },
+      "filter": {
+        "Q": 0,
+        "type": "lowpass",
+        "rolloff": -12
+      },
+      "filterEnvelope": {
+        "attack": 0.001,
+        "decay": 0.3,
+        "sustain": 0.0,
+        "release": 2,
+        "baseFrequency": 200,
+        "octaves": 7,
+        "exponent": 2,
       },
     })
     const filter = new Tone.Filter();
@@ -49,6 +64,12 @@ export default class Instrument extends React.Component {
         sustain: 0.1,
         release: 0.3,
       },
+      filterEnvelope: {
+        attack: 0.001,
+        decay: 5,
+        sustain: 0.1,
+        release: 0.3,
+      },
       oscType: 'pwm',
       oscMod: 1.0001,
 
@@ -59,7 +80,9 @@ export default class Instrument extends React.Component {
 
       isMono: true,
       monoPoly: undefined,
-
+      filterRolloff: -12,
+      exponent: 2,
+      synthFilterQ: 0,
       synth: synth,
       filter: filter,
       volume: volume,
@@ -97,6 +120,18 @@ export default class Instrument extends React.Component {
             "sustain": parseFloat(presets[i].amp_sustain),
             "release": parseFloat(presets[i].amp_release),
           },
+          "filterEnvelope": {
+            "attack": parseFloat(presets[i].filt_attack),
+            "decay": parseFloat(presets[i].filt_decay),
+            "sustain": parseFloat(presets[i].filt_sustain),
+            "release": parseFloat(presets[i].filt_release),
+            "exponent": presets[i].synth_filter_exponent,
+          },
+          "filter": {
+            "Q": presets[i].synth_filter_q,
+
+            "rolloff": presets[i].synth_filter_rolloff,
+          }
         },
           filter.set({
             "type": presets[i].filter_type,
@@ -150,11 +185,19 @@ export default class Instrument extends React.Component {
     const decay = this.state.ampEnvelope.decay.toString()
     const sustain = this.state.ampEnvelope.sustain.toString()
     const release = this.state.ampEnvelope.release.toString()
+    const filtAttack = this.state.filterEnvelope.attack.toString()
+    const filtDecay = this.state.filterEnvelope.decay.toString()
+    const filtSustain = this.state.filterEnvelope.sustain.toString()
+    const filtRelease = this.state.filterEnvelope.release.toString()
     const user = localStorage.getItem("user");
     const data = {
       description: this.state.presetInfo.description,
       category: this.state.presetInfo.category,
       volume: this.state.volumeLevel,
+      filt_attack: filtAttack,
+      filt_decay: filtDecay,
+      filt_sustain: filtSustain,
+      filt_release: filtRelease,
       amp_attack: attack,
       amp_decay: decay,
       amp_sustain: sustain,
@@ -165,9 +208,13 @@ export default class Instrument extends React.Component {
       filter_frequency: this.state.filterFrequency,
       filter_q: this.state.filterQ,
       is_mono: this.state.isMono,
+      synth_filter_rolloff: this.state.filterRolloff,
+      synth_filter_exponent: this.state.exponent,
+      synth_filter_q: this.state.synthFilterQ,
       user_id: user
     }
     const resp = await savePreset(user, data)
+    console.log(filtAttack)
   }
 
 
@@ -176,11 +223,19 @@ export default class Instrument extends React.Component {
     const decay = this.state.ampEnvelope.decay.toString()
     const sustain = this.state.ampEnvelope.sustain.toString()
     const release = this.state.ampEnvelope.release.toString()
+    const filtAttack = this.state.filterEnvelope.attack.toString()
+    const filtDecay = this.state.filterEnvelope.decay.toString()
+    const filtSustain = this.state.filterEnvelope.sustain.toString()
+    const filtRelease = this.state.filterEnvelope.release.toString()
     const user = localStorage.getItem("user");
     const data = {
       description: this.state.presetInfo.description,
       category: this.state.presetInfo.category,
       volume: this.state.volumeLevel,
+      filt_attack: filtAttack,
+      filt_decay: filtDecay,
+      filt_sustain: filtSustain,
+      filt_release: filtRelease,
       amp_attack: attack,
       amp_decay: decay,
       amp_sustain: sustain,
@@ -191,6 +246,9 @@ export default class Instrument extends React.Component {
       filter_frequency: this.state.filterFrequency,
       filter_q: this.state.filterQ,
       is_mono: this.state.isMono,
+      synth_filter_rolloff: this.state.filterRolloff,
+      synth_filter_exponent: this.state.exponent,
+      synth_filter_q: this.state.synthFilterQ,
     }
     const resp = await updatePreset(user, this.state.presetId, data)
   }
@@ -339,7 +397,67 @@ export default class Instrument extends React.Component {
     })
   }
 
+  handleFilterEnvChange = (e) => {
+    const { target: { name, value } } = e
+    this.setState(prevState => ({
+      filterEnvelope: {
+        ...prevState.filterEnvelope,
+        [name]: Math.round([value] / 10) + .001,
+      }
+    }))
+    this.state.synth.voices.map(voice => {
+      voice.filterEnvelope[name] = Math.round([value] / 10) + .001
+    })
+    // console.log(this.state.filterEnvelope)
+  }
 
+  handleFilterEnvDb = (e) => {  //remember we need to run this function inside of a patch load so it can check rolloff
+    if (this.state.filterRolloff == -12) {
+      this.setState({
+
+        filterRolloff: -24
+      })
+      this.state.synth.set({
+        "filter": {
+          "rolloff": -24
+        }
+      })
+    } else if (this.state.filterRolloff == -24) {
+      this.setState({
+
+        filterRolloff: -12,
+      })
+      this.state.synth.set({
+        "filter": {
+          "rolloff": -12
+        }
+      })
+    }
+    console.log(this.state.synth.voices[0].filter.rolloff)
+  }
+
+  handleOscFiltExp = (val) => {
+    this.setState(prevState => ({
+      ...prevState.exponent,
+      exponent: val,
+    }))
+    this.state.synth.set({
+      "filterEnvelope": {
+        "exponent": val,
+      }
+    })
+  }
+  handleOscFiltRes = (val) => {
+    this.setState(prevState => ({
+      ...prevState.synthFilterQ,
+      synthFilterQ: val,
+    }))
+    this.state.synth.set({
+      "filter": {
+        "Q": val,
+      }
+    })
+  }
 
 
 
@@ -408,6 +526,7 @@ export default class Instrument extends React.Component {
           break
         case 144: //noteOn
           const veloc = velocity * .01
+          // this.state.env.triggerAttackRelease([notArray[note + 2]])
 
           this.state.synth.triggerAttack([notArray[note + 2]], this.state.monoPoly, veloc) //can toggle between poly and mono by swapping second undefined argument for null respectively
           if (velocity > 0) {
@@ -492,6 +611,10 @@ export default class Instrument extends React.Component {
           handleVolume={this.handleVolumeKnobChange}
         />
         <AmpEnvOsc
+          handleRes={this.handleOscFiltRes}
+          handleExp={this.handleOscFiltExp}
+          handleDb={this.handleFilterEnvDb}
+          handleFilt={this.handleFilterEnvChange}
           handleEnv={this.handleAmpEnvChange}
           handleMod={this.handleOscModChange}
           handleOsc={this.handleOscTypeChange}
@@ -526,9 +649,3 @@ export default class Instrument extends React.Component {
     )
   }
 }
-
-
-
-
-
-

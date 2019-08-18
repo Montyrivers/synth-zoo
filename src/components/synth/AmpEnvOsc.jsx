@@ -90,7 +90,48 @@ export default class AmpEnvOsc extends React.Component {
               <label >R</label>
             </form>
             <img src={env} width="100" alt="envelope" />
+            <hr />
+            <h6>OSC LPF ENVELOPE</h6>
+            <form onChange={this.props.handleFilt}>
+              <input
+                className="env-slider"
+                type="range"
+                orient="vertical"
 
+                name="attack"
+                min="0.001" max="59"
+                step="0.001"
+              />
+
+              <label >A</label>
+              <input
+                className="env-slider"
+                type="range"
+                orient="vertical"
+
+                name="decay"
+                min="1" max="59"
+                step="0.5" />
+              <label >D</label>
+              <input
+                className="env-slider"
+                type="range"
+                orient="vertical"
+
+                name="sustain"
+                min="0" max="9"
+                step="0.01" />
+              <label >S</label>
+              <input
+                className="env-slider"
+                type="range"
+                orient="vertical"
+
+                name="release"
+                min="0.11" max="59"
+                step="0.1" />
+              <label >R</label>
+            </form>
           </div>
           <div className="osc-params">
             <h6>OSC MOD</h6>
@@ -108,7 +149,36 @@ export default class AmpEnvOsc extends React.Component {
             <hr />
             <img src={this.state.waveArray[this.state.waveSelect]} width="40" alt="PWM" />
             <button onClick={this.cycleForm}>WAVEFORM TYPE</button>
-
+            <hr />
+            <label className="switch">
+              <input type="checkbox" onClick={this.props.handleDb} />
+              <span className="slider"></span>
+            </label>
+            <label>2p/4p</label>
+            <hr />
+            <Knob
+              size={55}
+              numTicks={20}
+              degrees={200}
+              min={1}
+              max={10}
+              value={30}
+              color={true}
+              onChange={this.props.handleExp}
+            />
+            <label>env curve</label>
+            <hr />
+            <Knob
+              size={55}
+              numTicks={20}
+              degrees={200}
+              min={1}
+              max={10}
+              value={30}
+              color={true}
+              onChange={this.props.handleRes}
+            />
+            <label>Resonance</label>
 
 
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_14_231630) do
+ActiveRecord::Schema.define(version: 2019_08_18_172829) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,6 +32,13 @@ ActiveRecord::Schema.define(version: 2019_08_14_231630) do
     t.string "amp_decay"
     t.string "amp_sustain"
     t.string "amp_release"
+    t.string "filt_attack"
+    t.string "filt_decay"
+    t.string "filt_sustain"
+    t.string "filt_release"
+    t.string "synth_filter_rolloff"
+    t.string "synth_filter_exponent"
+    t.string "synth_filter_q"
     t.index ["user_id"], name: "index_presets_on_user_id"
   end
 

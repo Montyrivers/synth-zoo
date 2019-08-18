@@ -461,7 +461,7 @@ input[type=range]:focus::-ms-fill-upper {
   right: 0;
   bottom: 0;
 
-  background-color: orange;
+  background-color: rgb(255, 89, 0);
   -webkit-transition: .4s;
   transition: .4s;
 }
