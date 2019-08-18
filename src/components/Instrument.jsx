@@ -45,7 +45,7 @@ export default class Instrument extends React.Component {
     const filter = new Tone.Filter();
     const volume = new Tone.Gain();
     // const meter = new Tone.Meter()
-
+    Tone.context.latencyHint = "fastest"  // default: "interactive".   "fastest" setting allows lowest latency possible.
     super()
     //Tone components are stored in state.
     this.state = {
