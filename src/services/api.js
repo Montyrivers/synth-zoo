@@ -23,6 +23,10 @@ export const registerUser = async (data) => {
   return resp.data
 }
 
+
+
+
+
 export const logoutUser = async () => {
   api.defaults.headers.common.authorization = ""
   localStorage.setItem('user', '')

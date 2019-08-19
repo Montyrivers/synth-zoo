@@ -41,13 +41,19 @@ class UserPage extends React.Component {
   }
 
   handleRegister = async () => {
-    this.setState({
-      correctRegSubmit: false
-    })
-    const resp = await registerUser(this.state.userForm)
-    this.setState({
-      correctRegSubmit: true
-    })
+
+    try {
+      const resp = await registerUser(this.state.userForm)
+      this.setState({
+        correctRegSubmit: true
+      })
+    } catch (error) {
+      console.log(error)
+      this.setState({
+        correctRegSubmit: false
+      })
+    }
+
     this.setState({
       userForm: {
         name: '',

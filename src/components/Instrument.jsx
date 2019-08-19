@@ -88,12 +88,12 @@ export default class Instrument extends React.Component {
       volume: volume,
       // meter: meter,
       midiDevice: '',
-
-
-
-
     }
   }
+
+
+
+
   test = () => {
     console.log(this.state.ampEnvelope)
     console.log(localStorage.getItem("clientId"))
@@ -294,13 +294,13 @@ export default class Instrument extends React.Component {
 
   handleVolumeKnobChange = (val) => {
     const vol = val / 127 * .8
-
     this.setState(prevState => ({
       ...prevState.volumeLevel,
       volumeLevel: vol
     }))
     this.state.volume.gain.value = vol
   }
+
 
   handleFilterKnobChange = (val) => { //so like.  I can probably just avoid adding information to state and just push the entire object and alter it in state directly.
     this.setState(prevState => ({
@@ -311,6 +311,7 @@ export default class Instrument extends React.Component {
       "frequency": val,
     })
   }
+
   handleFilterChange = (e) => {
     const { target: { name, value } } = e
     this.setState(prevState => ({
@@ -408,7 +409,6 @@ export default class Instrument extends React.Component {
     this.state.synth.voices.map(voice => {
       voice.filterEnvelope[name] = Math.round([value] / 10) + .001
     })
-    // console.log(this.state.filterEnvelope)
   }
 
   handleFilterEnvDb = (e) => {  //remember we need to run this function inside of a patch load so it can check rolloff
@@ -433,7 +433,6 @@ export default class Instrument extends React.Component {
         }
       })
     }
-    console.log(this.state.synth.voices[0].filter.rolloff)
   }
 
   handleOscFiltExp = (val) => {
@@ -483,8 +482,8 @@ export default class Instrument extends React.Component {
       for (let input of midiAccess.inputs.values()) {
         //capture of midi messages is called here.
         input.onmidimessage = getMIDIMessage;
-
       }
+
 
       midiAccess.onstatechange = function (e) { //when detected device changes will log and attempt to open port for connection
         console.log(e.port)
@@ -576,11 +575,11 @@ export default class Instrument extends React.Component {
             voice.oscillator.detune.value = velocity * 2.95
           });
           break;
-
       }
     }
     navigator.requestMIDIAccess().then(onMIDISuccess, onMIDIFailure);
   }
+
 
   componentDidMount() { //joins instantiated Tone objects, loadSound initializes midi Promise object and other functions that translate incoming midi hardware messages on component render.
     this.state.synth.connect(this.state.filter);

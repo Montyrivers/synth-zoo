@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-
+import DrumSynth from './components/DrumSynth'
 import UserPage from './components/UserPage'
 import Instrument from './components/Instrument'
 import Header from './components/Header'
@@ -46,7 +46,7 @@ class App extends React.Component {
       <div className="App">
         <NavBar />
         <Header />
-
+        <DrumSynth />
         <Instrument />
 
         <Footer />
