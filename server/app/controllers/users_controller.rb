@@ -21,7 +21,7 @@ before_action :authorize_request, except: :create
     if @user.save
       render json: @user,status: :created, location: @user
     else
-      render json: errors: @user.errors.to_a , status: :unprocessable_entity
+      render json: {errors: @user.errors }, status: :unprocessable_entity
      end
   end
   

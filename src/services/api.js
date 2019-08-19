@@ -1,8 +1,8 @@
 const axios = require('axios')
 
+// const baseUrl = "https://evening-meadow-68084.herokuapp.com"
 const baseUrl = "http://localhost:3000"
 
-// https://mysterious-island-13273.herokuapp.com
 
 const api = axios.create({
   baseURL: baseUrl,

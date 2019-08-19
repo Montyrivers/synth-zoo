@@ -22,7 +22,7 @@ export default class RegisterForm extends React.Component {
           <input type="password" name="password" placeholder="Must be 7+ characters..." />
         </form>
         <button onClick={this.props.handleSubmit}>Register!</button>
-        {!this.props.correctSubmit && <p>Error.  Improper information submitted.</p>}
+        {(!this.props.correctSubmit && <p>Error.  Improper or duplicate information submitted.</p>) || (this.props.correctSubmit && this.props.newUser) && <p>Registration Complete.  Please Log In.</p>}
       </div>
     )
   }

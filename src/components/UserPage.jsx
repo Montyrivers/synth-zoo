@@ -22,6 +22,7 @@ class UserPage extends React.Component {
       },
       correctLogSubmit: true,
       correctRegSubmit: true,
+      newUser: null,
     }
   }
 
@@ -40,12 +41,16 @@ class UserPage extends React.Component {
     this.props.history.push(path);
   }
 
+
+
+
   handleRegister = async () => {
 
     try {
       const resp = await registerUser(this.state.userForm)
       this.setState({
-        correctRegSubmit: true
+        correctRegSubmit: true,
+        newUser: resp.name,
       })
     } catch (error) {
       console.log(error)
@@ -74,16 +79,24 @@ class UserPage extends React.Component {
   }
 
   handleLogin = async () => {
-    this.setState({
-      correctLogSubmit: false
-    })
-    const resp = await loginUser(this.state.loginForm)
-    this.setState({
-      correctLogSubmit: true
-    })
-    this.props.login()
-    this.routeChange()
+    try {
+      const resp = await loginUser(this.state.loginForm)
+      this.setState({
+        correctLogSubmit: true
+      })
+      this.props.login()
+
+      this.routeChange()
+
+    } catch (error) {
+      console.log(error)
+      this.setState({
+        correctLogSubmit: false
+      })
+    }
+
   }
+
 
 
 
@@ -99,6 +112,7 @@ class UserPage extends React.Component {
           handleSubmit={this.handleLogin}
           handleChange={this.handleLoginChange} />
         <RegisterForm
+          newUser={this.state.newUser}
           correctSubmit={this.state.correctRegSubmit}
           handleSubmit={this.handleRegister}
           handleChange={this.handleChange} />

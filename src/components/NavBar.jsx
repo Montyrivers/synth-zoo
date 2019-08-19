@@ -8,7 +8,7 @@ class NavBar extends React.Component {
   constructor() {
     super()
     this.state = {
-      userKey: localStorage.getItem('user'),
+
       isLoggedIn: false
     }
   }
@@ -31,7 +31,8 @@ class NavBar extends React.Component {
   }
 
   componentDidMount() {
-    if (this.state.userKey) {
+    const userKey = localStorage.getItem("user")
+    if (userKey) {
       this.setState({
         isLoggedIn: true
       })
@@ -49,7 +50,7 @@ class NavBar extends React.Component {
 
 
 
-        {this.state.isLoggedIn ? (<div><small>Hello, user #{this.state.userKey}.</small> <button onClick={this.logout}>logout</button></div>)
+        {this.state.isLoggedIn ? (<div><small>Hello, user #{localStorage.getItem("user")}.</small> <button onClick={this.logout}>logout</button></div>)
           : (<div><span>CREATE A USER TO SAVE AND LOAD YOUR OWN PRESETS</span>
             <Link to="/userpage"><button>SHOW USER PAGE</button></Link>
             <Route path="/userpage" render={() => <UserPage login={this.login} />} /> </div>)}

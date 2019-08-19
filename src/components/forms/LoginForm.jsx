@@ -22,8 +22,8 @@ export default class LoginForm extends React.Component {
           <input type="password" name="password" placeholder="Password..." />
         </form>
         <button onClick={this.props.handleSubmit}>Login!</button>
-
-        {!this.props.correctSubmit && <p>Error.  Information not found.</p>}
+        <hr />
+        {!this.props.correctSubmit && <p>Error. user Information not found.</p>}
         <Link to="/"><button className="hide">HIDE USER PAGE</button></Link>
 
       </div>

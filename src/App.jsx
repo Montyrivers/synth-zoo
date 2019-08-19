@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import { Route } from 'react-router-dom'
 import DrumSynth from './components/DrumSynth'
 import UserPage from './components/UserPage'
 import Instrument from './components/Instrument'
@@ -46,7 +47,9 @@ class App extends React.Component {
       <div className="App">
         <NavBar />
         <Header />
-        <DrumSynth />
+        <Route path="/drumsynth" exact render={() => <DrumSynth />} />
+
+
         <Instrument />
 
         <Footer />
