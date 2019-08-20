@@ -136,7 +136,7 @@ export default class Knob extends React.Component {
             ))
             : null}
         </div>
-        <div className="knob outer" style={oStyle} onTouchStart={this.startDrag} onMouseDown={this.startDrag}>
+        <div className="knob outer-full" style={oStyle} onTouchStart={this.startDrag} onMouseDown={this.startDrag}>
           <div className="knob inner" style={iStyle}>
             <div className="grip" />
           </div>

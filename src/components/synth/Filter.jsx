@@ -1,5 +1,5 @@
 import React from 'react'
-import Knob from '../ui/Knob'
+import KnobFull from '../ui/KnobFull'
 
 import lowpass from '../../assets/low-pass3.png'
 import highpass from '../../assets/high-pass3.png'
@@ -41,12 +41,12 @@ export default class Filter extends React.Component {
   render() {
     return (
       <div className="synth-component filter">
-        <h4>Filter</h4>
+        <h4>global</h4>
         <div >
-          <h6>CUTOFF</h6>
-          <Knob
+          <h6>filter</h6>
+          <KnobFull
             name={'frequency'}
-            size={68}
+            size={75}
             numTicks={50}
             degrees={200}
             min={75}
@@ -66,7 +66,7 @@ export default class Filter extends React.Component {
               id="start"
               name="Q"
               min="0" max="100" />
-            <label >Q</label>
+            <h4>Q</h4>
           </form>
           <hr />
           <img src={this.state.filterArray[this.state.filterSelect]} width="130" alt="FilterType" />

@@ -16,29 +16,13 @@ class App extends React.Component {
   constructor() {
 
 
-    // UPDATE: there is a problem in chrome with starting audio context
-    //  before a user gesture. This fixes it.
-    // let started = false;
-    // document.documentElement.addEventListener('mousedown', () => {
-    //   if (started) return;
-    //   started = true;
-    //   const inst = new Instrument();
-    //   const midi = new MIDIAccess({ onDeviceInput });
-    //   midi.start().then(() => {
-    //     console.log('STARTED!');
-    //   }).catch(console.error);
-
-    //  
-    // });
-
-
 
     super();
     this.state = {
-
-
     }
   }
+
+
 
 
 

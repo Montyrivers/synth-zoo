@@ -29,6 +29,7 @@ export default class Instrument extends React.Component {
       },
       "filter": {
         "Q": 0,
+        "frequency": 200,
         "type": "lowpass",
         "rolloff": -12
       },
@@ -44,7 +45,6 @@ export default class Instrument extends React.Component {
     })
     const filter = new Tone.Filter();
     const volume = new Tone.Gain();
-    // const meter = new Tone.Meter()
     Tone.context.latencyHint = "fastest"  // default: "interactive".   "fastest" setting allows lowest latency possible.
     super()
     //Tone components are stored in state.
@@ -82,11 +82,12 @@ export default class Instrument extends React.Component {
       monoPoly: undefined,
       filterRolloff: -12,
       exponent: 2,
+      baseFrequency: 200,
+      synthFilterFrequency: 200,
       synthFilterQ: 0,
       synth: synth,
       filter: filter,
       volume: volume,
-      // meter: meter,
       midiDevice: '',
     }
   }
@@ -94,12 +95,12 @@ export default class Instrument extends React.Component {
 
 
 
-  test = () => {
-    console.log(this.state.ampEnvelope)
-    console.log(localStorage.getItem("clientId"))
-    console.log(this.state.ampEnvelope.attack.toString())
-    console.log(this.state.presets)
-  }
+  // test = () => {
+  //   console.log(this.state.ampEnvelope)
+  //   console.log(localStorage.getItem("clientId"))
+  //   console.log(this.state.ampEnvelope.attack.toString())
+  //   console.log(this.state.presets)
+  // }
 
   handleLoadPreset = (preset_id) => {
     const synth = this.state.synth
@@ -126,12 +127,14 @@ export default class Instrument extends React.Component {
             "sustain": parseFloat(presets[i].filt_sustain),
             "release": parseFloat(presets[i].filt_release),
             "exponent": presets[i].synth_filter_exponent,
+            "baseFrequency": presets[i].synth_filter_base_frequency,
           },
           "filter": {
             "Q": presets[i].synth_filter_q,
-
             "rolloff": presets[i].synth_filter_rolloff,
+            "frequency": presets[i].synth_filter_frequency
           }
+
         },
           filter.set({
             "type": presets[i].filter_type,
@@ -145,7 +148,7 @@ export default class Instrument extends React.Component {
     }
   }
 
-
+  //Preset front end handling block.
   handlePresetChange = (e) => {
     const { target: { name, value } } = e
     this.setState(prevState => ({
@@ -211,6 +214,8 @@ export default class Instrument extends React.Component {
       synth_filter_rolloff: this.state.filterRolloff,
       synth_filter_exponent: this.state.exponent,
       synth_filter_q: this.state.synthFilterQ,
+      synth_filter_base_frequency: this.state.baseFrequency,
+      synth_filter_frequency: this.state.synthFilterFrequency,
       user_id: user
     }
     const resp = await savePreset(user, data)
@@ -249,6 +254,9 @@ export default class Instrument extends React.Component {
       synth_filter_rolloff: this.state.filterRolloff,
       synth_filter_exponent: this.state.exponent,
       synth_filter_q: this.state.synthFilterQ,
+      synth_filter_base_frequency: this.state.baseFrequency,
+      synth_filter_frequency: this.state.synthFilterFrequency,
+
     }
     const resp = await updatePreset(user, this.state.presetId, data)
   }
@@ -264,6 +272,8 @@ export default class Instrument extends React.Component {
     })
   }
 
+
+  // drone component
   droneZone = (val) => {
     this.state.synth.voices.map(voice => {
       voice.oscillator.frequency.value += val;
@@ -278,6 +288,8 @@ export default class Instrument extends React.Component {
     this.state.synth.triggerAttack(["C3", "E3", "G3"])
   }
 
+
+  // toggles monophonic polyphonic voicing
   monoPoly = (e) => {  //remember we need to run this function inside of a patch load so it can check isMono
     if (this.state.isMono) {
       this.setState({
@@ -292,6 +304,7 @@ export default class Instrument extends React.Component {
     }
   }
 
+  // volume
   handleVolumeKnobChange = (val) => {
     const vol = val / 127 * .8
     this.setState(prevState => ({
@@ -301,8 +314,8 @@ export default class Instrument extends React.Component {
     this.state.volume.gain.value = vol
   }
 
-
-  handleFilterKnobChange = (val) => { //so like.  I can probably just avoid adding information to state and just push the entire object and alter it in state directly.
+  // global filter cutoff front end change
+  handleFilterKnobChange = (val) => {
     this.setState(prevState => ({
       ...prevState.filterFrequency,
       filterFrequency: val,
@@ -312,6 +325,7 @@ export default class Instrument extends React.Component {
     })
   }
 
+  //global filter resonance front end change
   handleFilterChange = (e) => {
     const { target: { name, value } } = e
     this.setState(prevState => ({
@@ -324,7 +338,7 @@ export default class Instrument extends React.Component {
   }
 
 
-
+  // global filter type selection toggle 
   handleFilterType = (str) => {
     const filter = str
     this.setState(prevState => ({
@@ -342,7 +356,7 @@ export default class Instrument extends React.Component {
 
 
 
-
+  //synth oscillator type toggle
   handleOscTypeChange = (str) => {
     const osc = str
     this.state.synth.set({
@@ -364,7 +378,7 @@ export default class Instrument extends React.Component {
 
 
 
-
+  // front end control for osc pwm mod frequency
   handleOscModChange = (val) => {
     this.setState(prevState => ({
       ...prevState.oscMod,
@@ -384,7 +398,7 @@ export default class Instrument extends React.Component {
 
 
 
-
+  // amplifier envelope front end 
   handleAmpEnvChange = (e) => {
     const { target: { name, value } } = e
     this.setState(prevState => ({
@@ -398,6 +412,11 @@ export default class Instrument extends React.Component {
     })
   }
 
+
+
+
+
+
   handleFilterEnvChange = (e) => {
     const { target: { name, value } } = e
     this.setState(prevState => ({
@@ -410,6 +429,30 @@ export default class Instrument extends React.Component {
       voice.filterEnvelope[name] = Math.round([value] / 10) + .001
     })
   }
+
+  handleFilterEnvAmount = (val) => {
+    this.setState(prevState => ({
+      ...prevState.baseFrequency,
+      baseFrequency: val,
+    }))
+    this.state.synth.set({
+      "filterEnvelope": {
+        "baseFrequency": val,
+      }
+    })
+  }
+  handleSynthFilterFrequency = (val) => {
+    this.setState(prevState => ({
+      ...prevState.synthFilterFrequency,
+      synthFilterFrequency: val,
+    }))
+    this.state.synth.set({
+      "filter": {
+        "frequency": val,
+      }
+    })
+  }
+
 
   handleFilterEnvDb = (e) => {  //remember we need to run this function inside of a patch load so it can check rolloff
     if (this.state.filterRolloff == -12) {
@@ -489,12 +532,14 @@ export default class Instrument extends React.Component {
         console.log(e.port)
         //set state here?
         e.connection = "open"
+        e.state = "connected"
         document.addEventListener("mousedown", function (e) { // clicking mouse anywhere on page will resume autiocontext after automatic suspend due to idle, low power state, sleep, etc.
-          if (audioContext.suspend())
+          if (audioContext.suspend() || Tone.context.suspend()) {
+            Tone.context.resume()
             audioContext.resume()
-          console.log('resumed')
+            console.log('resumed')
+          }
         })
-        // console.log(e.port)
       }
     }
 
@@ -607,6 +652,8 @@ export default class Instrument extends React.Component {
         {/* <h4>Instrument</h4> */}
         {/* <button onClick={this.test}></button> */}
         <Volume
+          handleSynthFilterFrequency={this.handleSynthFilterFrequency}
+          handleFilterEnvAmount={this.handleFilterEnvAmount}
           handleVolume={this.handleVolumeKnobChange}
         />
         <AmpEnvOsc

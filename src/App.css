@@ -55,6 +55,9 @@ body {
   text-align: left;
   font-size: 3vh;
 }
+.keyboard-notice {
+  text-align: left;
+}
 
 .header img{
   float: right;
@@ -64,6 +67,10 @@ body {
 
 .about{
   text-align: left;
+}
+.chrome-icon {
+  width: 5vw;
+  margin-bottom: -4.5vh;
 }
 .fa {
   padding: 20px;
@@ -137,7 +144,6 @@ background-color: green;
 }
 .amp-env-osc{
   display: flex;
-  /* height: 40vh; */
   
 }
 .amp-env {
@@ -300,6 +306,28 @@ button:focus {
   outline:0;
 }
 
+.drum{
+	display:inline;
+	background: transparent;
+	width:200px;
+	height:60px;
+	line-height:60px;
+	text-align:center;
+	font-size:15px;
+	text-decoration:none;
+	text-transform:uppercase;
+	margin:40px auto;
+}
+
+
+
+
+
+
+
+
+
+
 input[type=range] {
   /* -webkit-appearance: none; */
   margin: 18px 0;
@@ -398,10 +426,16 @@ input[type=range]:focus::-ms-fill-upper {
   display: flex;
   position: relative;
   margin: 1.5vw;
+  
+  margin-bottom: 4vh;
 }
+
 .knob .ticks {
   position: absolute;
+}
   
+.amount {
+  margin-left: 2vw;
 }
 .knob .ticks .tick {
   position: absolute;
@@ -420,17 +454,28 @@ input[type=range]:focus::-ms-fill-upper {
   border-bottom: 5px solid #222;
   background-image: radial-gradient(100% 70%, #666 6%, #333 90%);
   box-shadow: 0 5px 15px 2px black, 0 0 5px 3px black, 0 0 0 12px #444;
+  display: none;
 }
-.knob.inner {
+.knob.outer-full {
   border-radius: 50%;
+  border: 1px solid #222;
+  border-bottom: 5px solid #222;
+  background-image: radial-gradient(100% 70%, #666 6%, #333 90%);
+  box-shadow: 0 5px 15px 2px black, 0 0 5px 3px black, 0 0 0 12px #444;
+}
+
+.knob.inner {
+  border-radius: 100%;
 }
 .knob.inner .grip {
   position: absolute;
-  width: 5%;
+  width: 10%;
   height: 5%;
-  bottom: 2%;
+  bottom: -7%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-700%);
+  transform: translatey(-300%);
+display: none;
   border-radius: 50%;
   background: #509eec;
   box-shadow: 0 0 3px 1px black;
@@ -506,7 +551,9 @@ input:checked + .slider:before {
 @media only screen and (max-width: 1120px) {
   .header img {
 display: none;  }
-
+  .header h1 {
+    font-size: 13vw;
+  }
 .components {
   display: block;
   width: 100vw;
@@ -515,6 +562,10 @@ display: none;  }
   width: 100vw;
 
 }
+.resonance {
+  font-size: 3.5vw;
+}
+
 .nuclear img {
   display: none;
 }

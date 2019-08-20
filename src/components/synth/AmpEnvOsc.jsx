@@ -76,7 +76,7 @@ export default class AmpEnvOsc extends React.Component {
                 orient="vertical"
 
                 name="sustain"
-                min="0" max="9"
+                min="0" max="59"
                 step="0.01" />
               <label >S</label>
               <input
@@ -119,8 +119,8 @@ export default class AmpEnvOsc extends React.Component {
                 orient="vertical"
 
                 name="sustain"
-                min="0" max="9"
-                step="0.01" />
+                min="0" max="59"
+                step="0.1" />
               <label >S</label>
               <input
                 className="env-slider"
@@ -158,11 +158,11 @@ export default class AmpEnvOsc extends React.Component {
             <hr />
             <Knob
               size={55}
-              numTicks={20}
+              numTicks={35}
               degrees={200}
               min={1}
               max={10}
-              value={30}
+              value={1}
               color={true}
               onChange={this.props.handleExp}
             />
@@ -170,15 +170,15 @@ export default class AmpEnvOsc extends React.Component {
             <hr />
             <Knob
               size={55}
-              numTicks={20}
+              numTicks={35}
               degrees={200}
               min={1}
               max={10}
-              value={30}
+              value={1}
               color={true}
               onChange={this.props.handleRes}
             />
-            <label>Resonance</label>
+            <label className="resonance">Resonance</label>
 
 
 

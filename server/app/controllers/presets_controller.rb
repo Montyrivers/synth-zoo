@@ -65,6 +65,6 @@ before_action :authorize_request, except: %i[index show]
   end
 
   def preset_params
-    params.require(:preset).permit(:description, :category, :volume, :amp_attack, :amp_decay, :amp_sustain, :amp_release, :osc_type, :osc_mod, :filter_type, :filter_frequency, :filter_q, :is_mono, :mono_poly,  :filt_attack, :filt_decay, :filt_sustain, :filt_release, :synth_filter_exponent, :synth_filter_q, :synth_filter_rolloff, :user_id)
+    params.require(:preset).permit(:description, :category, :volume, :amp_attack, :amp_decay, :amp_sustain, :amp_release, :osc_type, :osc_mod, :filter_type, :filter_frequency, :filter_q, :is_mono, :mono_poly,  :filt_attack, :filt_decay, :filt_sustain, :filt_release, :synth_filter_exponent, :synth_filter_q, :synth_filter_rolloff, :synth_filter_frequency, :synth_filter_base_frequency, :user_id)
   end
 end

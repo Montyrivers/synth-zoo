@@ -1,5 +1,5 @@
 import React from 'react'
-import Knob from '../ui/Knob'
+import KnobFull from '../ui/KnobFull'
 import nuclear from '../../assets/nuclear.png'
 export default class Options extends React.Component {
   constructor() {
@@ -56,9 +56,9 @@ export default class Options extends React.Component {
         <div className="drone-zone">
           <h6>THE DRONE ZONE</h6>
           <div className="nuclear">
-            <img src={nuclear} />
+            <img alt="nuclear emblem" src={nuclear} />
           </div>
-          <Knob
+          <KnobFull
             size={100}
             numTicks={55}
             degrees={180}

@@ -5,6 +5,10 @@ import { Link } from 'react-router-dom'
 class DrumSynth extends React.Component {
   constructor() {
     super()
+    // Tone.Transport.scheduleRepeat(repeat, '8n');
+    // Tone.Transport.start();
+
+
     const listener = (event) => {
       const keyPress = event.keyCode
       switch (keyPress) {
@@ -27,6 +31,7 @@ class DrumSynth extends React.Component {
         case 54:
           loTom.triggerAttackRelease("8n")
           break;
+        default:
       }
     }
 
@@ -118,25 +123,20 @@ class DrumSynth extends React.Component {
   }
 
 
+
+
+
+
+
   keyLog = (val) => {
-
-    const snare = this.state.snare
-    const loTom = this.state.loTom
-    const hiTom = this.state.hiTom
-    const hat = this.state.hat
-    const crash = this.state.crash
-    const kick = this.state.kick
-
-
-
     if (val) {
       window.addEventListener("keydown", this.listener, false)
     } else if (!val) {
       window.removeEventListener('keydown', this.listener, false);
-
     }
-
   }
+
+
 
 
 
@@ -158,38 +158,18 @@ class DrumSynth extends React.Component {
     return (
       <div className="synth-component">
         <Link to="/"><button className="hide">HIDE DRUM SYNTH</button></Link>
-        <h3>PLAY THE DRUMS WITH YOUR COMPUTER KEYBOARD 123456!</h3>
+        <h3>PLAY THE DRUMS WITH YOUR QWERTY KEYBOARD numbers 1-2-3-4-5-6.</h3>
         <div className="drum-kit">
-          {/* <button onClick={() => this.keyLog(true)}>START QWERTY KB INPUT</button>
-          <button onClick={() => this.keyLog(false)}>STOP QWERTY KB INPUT</button> */}
 
-          <button onClick={() => this.state.snare.triggerAttackRelease("8n")}>snare</button>
-          <button onClick={() => this.state.hat.triggerAttackRelease("8n")}>hi-hat</button>
-          <button onClick={() => this.state.crash.triggerAttackRelease("8n")}>crash</button>
-          <button onClick={() => this.state.kick.triggerAttackRelease("8n")}>kick</button>
-          <button onClick={() => this.state.hiTom.triggerAttackRelease("8n")}>high-tom</button>
-          <button onClick={() => this.state.loTom.triggerAttackRelease("8n")}>low-tom</button>
+
+          <button className="drum" onClick={() => this.state.hat.triggerAttackRelease("8n")}>hi-hat</button>
+          <button className="drum" onClick={() => this.state.snare.triggerAttackRelease("8n")}>snare</button>
+          <button className="drum" onClick={() => this.state.crash.triggerAttackRelease("8n")}>crash</button>
+          <button className="drum" onClick={() => this.state.kick.triggerAttackRelease("8n")}>kick</button>
+          <button className="drum" onClick={() => this.state.hiTom.triggerAttackRelease("8n")}>high-tom</button>
+          <button className="drum" onClick={() => this.state.loTom.triggerAttackRelease("8n")}>low-tom</button>
         </div>
-        <div className="pattern">
-          <div>
-            <input type="checkbox" />
-            <input type="checkbox" />
-            <input type="checkbox" />
-            <input type="checkbox" />
-            <input type="checkbox" />
-            <input type="checkbox" />
-            <input type="checkbox" />
-            <input type="checkbox" />
-            <input type="checkbox" />
-            <input type="checkbox" />
-            <input type="checkbox" />
-            <input type="checkbox" />
-            <input type="checkbox" />
-            <input type="checkbox" />
-            <input type="checkbox" />
-            <input type="checkbox" />
-          </div>
-        </div>
+
       </div >
     )
   }
