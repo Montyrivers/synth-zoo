@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_20_155109) do
+ActiveRecord::Schema.define(version: 2019_08_20_230728) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 2019_08_20_155109) do
     t.string "osc_type"
     t.integer "osc_mod"
     t.string "filter_type"
-    t.integer "filter_frequency"
+    t.string "filter_frequency"
     t.integer "filter_q"
     t.boolean "is_mono"
     t.bigint "user_id"

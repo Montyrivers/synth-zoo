@@ -51,7 +51,7 @@ export default class Filter extends React.Component {
             degrees={200}
             min={75}
             max={15000}
-            value={this.props.frequency}
+            value={75}
             color={true}
             onChange={this.props.handleKnob}
           />
@@ -62,7 +62,6 @@ export default class Filter extends React.Component {
             <input className="filter-slider"
               onChange={this.props.handleChange}
               type="range"
-              // orient="vertical"
               id="start"
               name="Q"
               min="0" max="100" />

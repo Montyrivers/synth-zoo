@@ -2,6 +2,9 @@ Synth
 
 To setup working code just clone down and type 'npm install' in the CLI and run local server with 'npm start'
 
+alternatively there is a working surge deployment here 
+http://synth-zoo.surge.sh
+
 Synth (working title) is a web app built in React.js using the Tone.js webAudio library to create a simple subtractive synthesizer that can be programmed with a user interface and played back and controlled in real time by accepting input using a midi keyboard.  Users can register a username to save and recall presets for their favorite sounds with a backend server built in Ruby On Rails.  
 
 - realtime midi input with standard keyboard controller messages accepted i.e. (sustain, modulation, expression, etc.)

@@ -110,6 +110,15 @@ export default class Instrument extends React.Component {
     for (let i = 0; i < presets.length; i += 1) {
       if (presets[i].id === preset_id) {
         console.log(presets[i])
+        this.setState(prevState => ({
+          ...prevState.ismono,
+          isMono: presets[i].is_mono,
+        }))
+        this.setState(prevState => ({
+          ...prevState.filterRolloff,
+          filterRolloff: presets[i].synth_filter_rolloff
+        }))
+
         synth.set({
           "oscillator": {
             "type": presets[i].osc_type,
@@ -127,7 +136,7 @@ export default class Instrument extends React.Component {
             "sustain": parseFloat(presets[i].filt_sustain),
             "release": parseFloat(presets[i].filt_release),
             "exponent": presets[i].synth_filter_exponent,
-            "baseFrequency": presets[i].synth_filter_base_frequency,
+            "baseFrequency": parseFloat(presets[i].synth_filter_base_frequency),
           },
           "filter": {
             "Q": presets[i].synth_filter_q,
@@ -143,7 +152,7 @@ export default class Instrument extends React.Component {
           }),
 
         )
-        this.monoPoly()
+        // this.monoPoly()
       }
     }
   }
@@ -323,6 +332,7 @@ export default class Instrument extends React.Component {
     this.state.filter.set({
       "frequency": val,
     })
+    console.log(this.state.filterFrequency)
   }
 
   //global filter resonance front end change
@@ -540,7 +550,6 @@ export default class Instrument extends React.Component {
           if (audioContext.suspend() || Tone.context.suspend()) {
             Tone.context.resume()
             audioContext.resume()
-            console.log('resumed')
           }
         })
       }
