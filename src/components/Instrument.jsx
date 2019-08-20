@@ -348,7 +348,6 @@ export default class Instrument extends React.Component {
     this.state.filter.set({
       "type": filter,
     })
-    console.log(this.state.filter)
   }
 
 
@@ -404,12 +403,14 @@ export default class Instrument extends React.Component {
     this.setState(prevState => ({
       ampEnvelope: {
         ...prevState.ampEnvelope,
-        [name]: Math.round([value] / 10) + .001,
+        [name]: Math.round([value]) / 10 + .001,
       }
     }))
     this.state.synth.voices.map(voice => {
-      voice.envelope[name] = Math.round([value] / 10) + .001
+      voice.envelope[name] = Math.round([value]) / 10 + .001
+
     })
+    // console.log(Math.round([value]) / 10 + .001)
   }
 
 
@@ -422,12 +423,14 @@ export default class Instrument extends React.Component {
     this.setState(prevState => ({
       filterEnvelope: {
         ...prevState.filterEnvelope,
-        [name]: Math.round([value] / 10) + .001,
+        [name]: Math.round([value]) / 10 + .001,
       }
     }))
     this.state.synth.voices.map(voice => {
-      voice.filterEnvelope[name] = Math.round([value] / 10) + .001
+      voice.filterEnvelope[name] = Math.round([value]) / 10 + .001
     })
+    // console.log(Math.round([value]) / 10 + .001)
+
   }
 
   handleFilterEnvAmount = (val) => {
@@ -516,11 +519,12 @@ export default class Instrument extends React.Component {
     };
 
     const onMIDISuccess = (midiAccess) => { //if successful, will store detected input devices as an object, returning port, manufacturer, device name, device id.
-      console.log(midiAccess);
+
+      // console.log(midiAccess);
+
       //midi inputs/outputs stored in variable in case you connect multiple devices.
       let inputs = midiAccess.inputs;
       let outputs = midiAccess.outputs;
-      console.log(inputs.values())
 
       for (let input of midiAccess.inputs.values()) {
         //capture of midi messages is called here.
@@ -530,7 +534,6 @@ export default class Instrument extends React.Component {
 
       midiAccess.onstatechange = function (e) { //when detected device changes will log and attempt to open port for connection
         console.log(e.port)
-        //set state here?
         e.connection = "open"
         e.state = "connected"
         document.addEventListener("mousedown", function (e) { // clicking mouse anywhere on page will resume autiocontext after automatic suspend due to idle, low power state, sleep, etc.
@@ -604,13 +607,16 @@ export default class Instrument extends React.Component {
           if (note === 64 && velocity === 0) {
 
             this.state.synth.voices.map(voice => {
-              voice.envelope.release = 0.01
+              voice.envelope.release = this.state.ampEnvelope.release
+              voice.filterEnvelope.release = this.state.filterEnvelope.release
+
             });
           }
           else if (note === 64) {
 
             this.state.synth.voices.forEach(voice => {
               voice.envelope.release = sus
+              voice.filterEnvelope.release = sus
             });
           }
           break;
@@ -630,12 +636,10 @@ export default class Instrument extends React.Component {
     this.state.synth.connect(this.state.filter);
     this.state.filter.connect(this.state.volume);
     this.state.volume.toMaster();
-    // this.state.meter.toMaster();
     this.state.filter.frequency.value = 200; // 200 - 15000
     this.state.volume.gain.value = 0.8; // 0-0.8
     this.loadSound()
-    console.log(this.state.synth)
-    console.log(this.state.midiDevice)
+    // console.log(this.state.synth)
   }
 
 

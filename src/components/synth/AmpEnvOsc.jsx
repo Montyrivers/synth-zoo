@@ -76,7 +76,7 @@ export default class AmpEnvOsc extends React.Component {
                 orient="vertical"
 
                 name="sustain"
-                min="0" max="59"
+                min="0" max="9"
                 step="0.01" />
               <label >S</label>
               <input
@@ -119,8 +119,8 @@ export default class AmpEnvOsc extends React.Component {
                 orient="vertical"
 
                 name="sustain"
-                min="0" max="59"
-                step="0.1" />
+                min="0" max="9"
+                step="0.01" />
               <label >S</label>
               <input
                 className="env-slider"

@@ -69,7 +69,7 @@ body {
   text-align: left;
 }
 .chrome-icon {
-  width: 5vw;
+  width: 7.3vw;
   margin-bottom: -4.5vh;
 }
 .fa {
@@ -307,12 +307,13 @@ button:focus {
 }
 
 .drum{
-	display:inline;
+  display: inline-flex;
+  column-count: 3;
 	background: transparent;
 	width:200px;
 	height:60px;
 	line-height:60px;
-	text-align:center;
+	text-align: center;
 	font-size:15px;
 	text-decoration:none;
 	text-transform:uppercase;
@@ -426,16 +427,16 @@ input[type=range]:focus::-ms-fill-upper {
   display: flex;
   position: relative;
   margin: 1.5vw;
-  
   margin-bottom: 4vh;
 }
+  
 
 .knob .ticks {
   position: absolute;
 }
   
 .amount {
-  margin-left: 2vw;
+  margin-left: 1.2vw;
 }
 .knob .ticks .tick {
   position: absolute;

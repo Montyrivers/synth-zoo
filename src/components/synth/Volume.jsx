@@ -1,6 +1,5 @@
 import React from 'react'
 import KnobFull from '../ui/KnobFull'
-import Knob from '../ui/Knob'
 import { Link } from 'react-router-dom'
 export default class Volume extends React.Component {
   constructor() {
@@ -33,8 +32,8 @@ export default class Volume extends React.Component {
         <Link to="/drumsynth"><button className="hide">SHOW DRUMSYNTH</button></Link>
         <hr />
         <div className="amount">
-          <Knob
-            size={62}
+          <KnobFull
+            size={80}
             numTicks={35}
             degrees={200}
             min={1}
