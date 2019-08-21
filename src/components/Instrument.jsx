@@ -95,25 +95,20 @@ export default class Instrument extends React.Component {
 
 
 
-  // test = () => {
-  //   console.log(this.state.ampEnvelope)
-  //   console.log(localStorage.getItem("clientId"))
-  //   console.log(this.state.ampEnvelope.attack.toString())
-  //   console.log(this.state.presets)
-  // }
+
 
   handleLoadPreset = (preset_id) => {
     const synth = this.state.synth
     const filter = this.state.filter
     const volume = this.state.volume
     const presets = this.state.presets
-    for (let i = 0; i < presets.length; i += 1) {
+    for (let i = 0; i < presets.length; i += 1) { //must add update to local state keys to prevent overwiting unedited data on patch overwrite....
       if (presets[i].id === preset_id) {
-        console.log(presets[i])
-        this.setState(prevState => ({
-          ...prevState.ismono,
-          isMono: presets[i].is_mono,
-        }))
+        // console.log(presets[i])
+        // this.setState(prevState => ({
+        //   ...prevState.ismono,
+        //   isMono: presets[i].is_mono,
+        // }))
         this.setState(prevState => ({
           ...prevState.filterRolloff,
           filterRolloff: presets[i].synth_filter_rolloff
@@ -141,7 +136,7 @@ export default class Instrument extends React.Component {
           "filter": {
             "Q": presets[i].synth_filter_q,
             "rolloff": presets[i].synth_filter_rolloff,
-            "frequency": presets[i].synth_filter_frequency
+            "frequency": presets[i].synth_filter_frequency,
           }
 
         },
@@ -342,7 +337,7 @@ export default class Instrument extends React.Component {
     this.state.filter.set({
       "frequency": val,
     })
-    console.log(this.state.filterFrequency)
+    // console.log(this.state.filterFrequency)
   }
 
   //global filter resonance front end change
@@ -430,7 +425,6 @@ export default class Instrument extends React.Component {
       voice.envelope[name] = Math.round([value]) / 10 + .001
 
     })
-    // console.log(Math.round([value]) / 10 + .001)
   }
 
 
@@ -449,9 +443,8 @@ export default class Instrument extends React.Component {
     this.state.synth.voices.map(voice => {
       voice.filterEnvelope[name] = Math.round([value]) / 10 + .001
     })
-    // console.log(Math.round([value]) / 10 + .001)
-
   }
+
 
   handleFilterEnvAmount = (val) => {
     this.setState(prevState => ({
@@ -474,6 +467,7 @@ export default class Instrument extends React.Component {
         "frequency": val,
       }
     })
+    // console.log(this.state.synthFilterFrequency)
   }
 
 
