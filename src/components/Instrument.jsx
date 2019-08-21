@@ -152,7 +152,7 @@ export default class Instrument extends React.Component {
           }),
 
         )
-        // this.monoPoly()
+        // this.monoPolyLoad()
       }
     }
   }
@@ -170,7 +170,6 @@ export default class Instrument extends React.Component {
   handleGetPresets = async () => {
     const user = localStorage.getItem('user')
     const resp = await getPresets(user);
-    console.log(resp)
     this.setState(prevState => ({
       ...prevState.presets,
       presets: resp,
@@ -188,8 +187,7 @@ export default class Instrument extends React.Component {
       ...prevState.selectedPreset,
       selectedPreset: [resp, "string"]
     }))
-    console.log(value)
-    console.log(this.state.selectedPreset)
+    // console.log(this.state.selectedPreset)
   }
 
   handleSavePreset = async () => {
@@ -228,7 +226,6 @@ export default class Instrument extends React.Component {
       user_id: user
     }
     const resp = await savePreset(user, data)
-    console.log(filtAttack)
   }
 
 
@@ -299,7 +296,7 @@ export default class Instrument extends React.Component {
 
 
   // toggles monophonic polyphonic voicing
-  monoPoly = (e) => {  //remember we need to run this function inside of a patch load so it can check isMono
+  monoPoly = (e) => {
     if (this.state.isMono) {
       this.setState({
         isMono: false,
@@ -308,6 +305,19 @@ export default class Instrument extends React.Component {
     } else if (!this.state.isMono) {
       this.setState({
         isMono: true,
+        monoPoly: undefined,
+      })
+    }
+  }
+
+  monoPolyLoad = (e) => {
+    if (this.state.isMono) {
+      this.setState({
+        monoPoly: null
+      })
+    } else if (!this.state.isMono) {
+      this.setState({
+
         monoPoly: undefined,
       })
     }
