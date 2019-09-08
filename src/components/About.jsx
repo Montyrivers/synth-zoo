@@ -13,7 +13,7 @@ export default function About() {
       <img className="chrome-icon" src={chrome} alt="chrome-emblem" />
       <a href="https://linkedin.com/in/christopher-montalbo-6a7a379a/" className="fa fa-linkedin" target="_blank" rel="noopener noreferrer"></a>
       {/* <a href="#" className="fa fa-twitter" rel="noopener noreferrer"></a> */}
-      <a className="github" href="https://github.com/Montyrivers?tab=repositories" target="_blank" rel="noopener noreferrer">GITHUB</a>
+      <a className="fa fa-github" href="https://github.com/Montyrivers?tab=repositories" target="_blank" rel="noopener noreferrer">GITHUB</a>
 
       <Link to="/"><button className="hide" >HIDE ABOUT PAGE</button></Link>
 

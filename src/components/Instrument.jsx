@@ -102,6 +102,9 @@ export default class Instrument extends React.Component {
     const filter = this.state.filter
     const volume = this.state.volume
     const presets = this.state.presets
+
+
+
     for (let i = 0; i < presets.length; i += 1) { //must add update to local state keys to prevent overwiting unedited data on patch overwrite....
       if (presets[i].id === preset_id) {
         // console.log(presets[i])
@@ -109,11 +112,71 @@ export default class Instrument extends React.Component {
         //   ...prevState.ismono,
         //   isMono: presets[i].is_mono,
         // }))
+        //Global Filter state block:
+        this.setState(prevState => ({
+          ...prevState.filterFrequency,
+          filterFrequency: presets[i].filter_frequency,
+        }));
+        this.setState(prevState => ({
+          ...prevState.filterQ,
+          filterQ: presets[i].filter_q,
+        }));
+        this.setState(prevState => ({
+          ...prevState.filterType,
+          filterQ: presets[i].filter_type,
+        }));
+
+        //Synth Filter and Filter Envelope, Oscillator State Block:
+        this.setState(prevState => ({
+          ...prevState.oscMod,
+          oscMod: presets[i].osc_mod,
+        }));
+        this.setState(prevState => ({
+          ...prevState.oscType,
+          oscType: presets[i].osc_type,
+        }))
+        this.setState(prevState => ({
+          ...prevState.exponent,
+          exponent: presets[i].synth_filter_exponent,
+        }));
         this.setState(prevState => ({
           ...prevState.filterRolloff,
-          filterRolloff: presets[i].synth_filter_rolloff
-        }))
+          filterRolloff: presets[i].synth_filter_rolloff,
+        }));
+        this.setState(prevState => ({
+          ...prevState.synthFilterQ,
+          synthFilterQ: presets[i].synth_filter_q,
+        }));
+        this.setState(prevState => ({
+          ...prevState.synthFilterFrequency,
+          synthFilterFrequency: presets[i].synth_filter_frequency,
+        }));
+        this.setState(prevState => ({
+          ...prevState.baseFrequency,
+          baseFrequency: parseFloat(presets[i].synth_filter_base_frequency),
+        }));
+        this.setState(prevState => ({
+          ...prevState.filterEnvelope,
+          filterEnvelope: {
+            attack: parseFloat(presets[i].filt_attack),
+            decay: parseFloat(presets[i].filt_decay),
+            sustain: parseFloat(presets[i].filt_sustain),
+            release: parseFloat(presets[i].filt_release),
+          }
+        }));
 
+        //Amp envelope state block
+        this.setState(prevState => ({
+          ...prevState.ampEnvelope,
+          ampEnvelope: {
+            attack: parseFloat(presets[i].amp_attack),
+            decay: parseFloat(presets[i].amp_decay),
+            sustain: parseFloat(presets[i].amp_sustain),
+            release: parseFloat(presets[i].amp_release),
+          }
+        }));
+
+        //Synth Data load block.
         synth.set({
           "oscillator": {
             "type": presets[i].osc_type,
